@@ -1,1 +1,1 @@
-# reactjs-spa-auth
+# React JS Authentication Boilerplate
