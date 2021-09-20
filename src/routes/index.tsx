@@ -1,13 +1,12 @@
 import { Switch } from 'react-router-dom'
-import { PrivateRoute } from './PrivateRoute'
-import { PublicRoute } from './PublicRoute'
-import { HybridRoute } from './HybridRoute'
 
-// page components
+import { Home } from '../pages/Home'
 import { Login } from '../pages/Login'
 import { Register } from '../pages/Register'
-import { Home } from '../pages/Home'
 import { Users } from '../pages/Users'
+import { HybridRoute } from './HybridRoute'
+import { PrivateRoute } from './PrivateRoute'
+import { PublicRoute } from './PublicRoute'
 
 export const Routes = () => (
   <Switch>

@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+
 import { Register } from '.'
 
 describe('Register page component', () => {

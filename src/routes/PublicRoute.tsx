@@ -1,4 +1,5 @@
 import { Route, Redirect, RouteProps } from 'react-router-dom'
+
 import { isAuthenticated } from '../hooks/useAuth'
 
 export const PublicRoute = (props: RouteProps) => {
