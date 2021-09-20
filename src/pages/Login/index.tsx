@@ -1,4 +1,5 @@
 import React, { FormEvent, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 function initialFormFields () {
   return {
@@ -9,6 +10,7 @@ function initialFormFields () {
 
 export function Login () {
   const [fields, setFields] = useState(initialFormFields)
+  const history = useHistory()
 
   function handleChange (e: React.ChangeEvent<HTMLInputElement>) {
     const field = e.target.name
@@ -30,6 +32,10 @@ export function Login () {
     console.log(fields)
 
     resetFormFields()
+
+    setTimeout(() => {
+      history.push('/register')
+    }, 2000)
   }
 
   return (
