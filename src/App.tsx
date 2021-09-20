@@ -1,7 +1,12 @@
-export default function App () {
-  return (
-    <div>
-      <h1>React JS Authentication Boilerplate</h1>
-    </div>
-  )
-}
+import { BrowserRouter } from 'react-router-dom'
+import { Routes } from './routes'
+import { NavBar } from './components/NavBar'
+
+const App = () => (
+  <BrowserRouter>
+    <NavBar />
+    <Routes />
+  </BrowserRouter>
+)
+
+export default App
