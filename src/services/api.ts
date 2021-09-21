@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { parseCookies, setCookie } from 'nookies'
+import { destroyCookie, parseCookies, setCookie } from 'nookies'
 
 import { COOKIE_EXPIRATION_TIME } from '../utils/constants'
 
@@ -62,8 +62,8 @@ api.interceptors.response.use(response => {
             failedRequestQueue.forEach(request => request.onFailure(err))
             failedRequestQueue = []
 
-            // TODO:
-            console.log('call signOut() method')
+            destroyCookie(null, 'reactauth.token')
+            destroyCookie(null, 'reactauth.refreshToken')
           })
           .finally(() => {
             isRefreshing = false
@@ -83,8 +83,8 @@ api.interceptors.response.use(response => {
         })
       })
     } else {
-      // TODO:
-      console.log('call signOut() method')
+      destroyCookie(null, 'reactauth.token')
+      destroyCookie(null, 'reactauth.refreshToken')
     }
   }
 
