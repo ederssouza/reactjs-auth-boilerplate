@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios'
 import { parseCookies, setCookie } from 'nookies'
 
+import { COOKIE_EXPIRATION_TIME } from '../utils/constants'
+
 interface IFailedRequestQueue {
   onSuccess: (token: string) => void
   onFailure: (err: AxiosError) => void
@@ -38,13 +40,13 @@ api.interceptors.response.use(response => {
           .then(response => {
             const { token } = response.data
 
-            setCookie(undefined, 'reactauth.token', token, {
-              maxAge: 60 * 60 * 24 * 30, // 30 days
+            setCookie(null, 'reactauth.token', token, {
+              maxAge: COOKIE_EXPIRATION_TIME,
               path: '/'
             })
 
-            setCookie(undefined, 'reactauth.refreshToken', response.data.refreshToken, {
-              maxAge: 60 * 60 * 24 * 30, // 30 days
+            setCookie(null, 'reactauth.refreshToken', response.data.refreshToken, {
+              maxAge: COOKIE_EXPIRATION_TIME,
               path: '/'
             })
 
