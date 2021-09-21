@@ -1,12 +1,15 @@
 import { BrowserRouter } from 'react-router-dom'
 
 import { NavBar } from './components/NavBar'
+import { AuthProvider } from './context/AuthContext'
 import { Routes } from './routes'
 
 const App = () => (
   <BrowserRouter>
-    <NavBar />
-    <Routes />
+    <AuthProvider>
+      <NavBar />
+      <Routes />
+    </AuthProvider>
   </BrowserRouter>
 )
 
