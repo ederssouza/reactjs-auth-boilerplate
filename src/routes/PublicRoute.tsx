@@ -1,11 +1,12 @@
+import { useContext } from 'react'
 import { Route, Redirect, RouteProps } from 'react-router-dom'
 
-import { isAuthenticated } from '../hooks/useAuth'
+import { AuthContext } from '../context/AuthContext'
 
 export const PublicRoute = (props: RouteProps) => {
-  const condition = isAuthenticated()
+  const { isAuthenticated } = useContext(AuthContext)
 
-  return condition
+  return isAuthenticated
     ? (<Redirect to={{ pathname: '/', state: { from: props.location } }} />)
     : (<Route {...props} />)
 }
