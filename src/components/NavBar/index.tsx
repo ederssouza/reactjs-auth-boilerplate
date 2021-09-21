@@ -15,7 +15,7 @@ export function NavBar () {
 
       {isAuthenticated && (
         <>
-          <span>{user.email}</span>
+          <span>{user?.email}</span>
           <button onClick={() => signOut()}>Logout</button>
         </>
       )}
