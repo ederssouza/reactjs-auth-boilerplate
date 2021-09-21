@@ -1,7 +1,8 @@
-import React, { FormEvent, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { FormEvent, useContext, useState } from 'react'
 
-function initialFormFields () {
+import { AuthContext } from '../../context/AuthContext'
+
+function initialFormValues () {
   return {
     email: '',
     password: ''
@@ -9,33 +10,22 @@ function initialFormFields () {
 }
 
 export function Login () {
-  const [fields, setFields] = useState(initialFormFields)
-  const history = useHistory()
+  const [values, setValues] = useState(initialFormValues)
+  const { signIn } = useContext(AuthContext)
 
   function handleChange (e: React.ChangeEvent<HTMLInputElement>) {
-    const field = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
 
-    setFields({
-      ...fields,
-      [field]: value
+    setValues({
+      ...values,
+      [name]: value
     })
   }
 
-  function resetFormFields () {
-    setFields(initialFormFields)
-  }
-
-  function handleSubmit (e: FormEvent) {
+  async function handleSubmit (e: FormEvent) {
     e.preventDefault()
 
-    console.log(fields)
-
-    resetFormFields()
-
-    setTimeout(() => {
-      history.push('/register')
-    }, 2000)
+    await signIn(values)
   }
 
   return (
@@ -46,7 +36,7 @@ export function Login () {
         <div>
           <label htmlFor="">Email</label>
           <input
-            value={fields.email}
+            value={values.email}
             type="email"
             name="email"
             onChange={handleChange}
@@ -56,7 +46,7 @@ export function Login () {
         <div>
           <label htmlFor="">Password</label>
           <input
-            value={fields.password}
+            value={values.password}
             type="password"
             name="password"
             onChange={handleChange}
