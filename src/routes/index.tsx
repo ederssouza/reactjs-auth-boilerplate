@@ -13,6 +13,6 @@ export const Routes = () => (
     <PublicRoute path="/login" component={Login} />
     <HybridRoute path="/register" component={Register} />
     <PrivateRoute exact path="/" component={Home} />
-    <PrivateRoute path="/users" component={Users} />
+    <PrivateRoute path="/users" component={Users} hasAccess={true} />
   </Switch>
 )
