@@ -2,7 +2,7 @@ import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { api, setHeaderAuthorization } from '../services/api'
+import { api, setAuthorizationHeader } from '../services/api'
 import { COOKIE_EXPIRATION_TIME, REFRESH_TOKEN_COOKIE, TOKEN_COOKIE } from '../utils/constants'
 
 interface User {
@@ -60,7 +60,7 @@ export function AuthProvider ({ children }: AuthProviderProps) {
         roles
       })
 
-      setHeaderAuthorization(api.defaults, token)
+      setAuthorizationHeader(api.defaults, token)
     } catch (error) {
       console.log('ERROR:', error)
     }
@@ -81,7 +81,7 @@ export function AuthProvider ({ children }: AuthProviderProps) {
     const cookies = parseCookies()
     const token = cookies[TOKEN_COOKIE]
 
-    setHeaderAuthorization(api.defaults, token)
+    setAuthorizationHeader(api.defaults, token)
 
     if (token) {
       api.get('/me')
