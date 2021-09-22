@@ -2,7 +2,8 @@ import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { api, setAuthorizationHeader } from '../services/api'
+import { api } from '../services/api'
+import { setAuthorizationHeader } from '../services/interceptors'
 import { COOKIE_EXPIRATION_TIME, REFRESH_TOKEN_COOKIE, TOKEN_COOKIE } from '../utils/constants'
 
 interface User {
