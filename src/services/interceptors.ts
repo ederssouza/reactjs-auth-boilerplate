@@ -27,12 +27,10 @@ function handleRefreshToken (refreshToken: string) {
       createTokenCookies(token, response.data.refreshToken)
       setAuthorizationHeader(api.defaults, token)
 
-      // calls the `onSuccess` method on the failed with list
       failedRequestQueue.forEach(request => request.onSuccess(token))
       failedRequestQueue = []
     })
     .catch(error => {
-      // calls the `onFailure` method on the failed with list
       failedRequestQueue.forEach(request => request.onFailure(error))
       failedRequestQueue = []
 
@@ -46,7 +44,6 @@ function handleRefreshToken (refreshToken: string) {
 function onRequest (config: AxiosRequestConfig): AxiosRequestConfig {
   const cookies = parseCookies()
   const token = cookies[TOKEN_COOKIE]
-
   if (token) setAuthorizationHeader(config, token)
   return config
 }
@@ -66,10 +63,8 @@ function onResponseError (error: AxiosError): Promise<AxiosError | AxiosResponse
       const cookies = parseCookies()
       const refreshToken = cookies[REFRESH_TOKEN_COOKIE]
 
-      // prevent a new request with old token
       !isRefreshing && handleRefreshToken(refreshToken)
 
-      // create a request list to reprocess
       return new Promise((resolve, reject) => {
         failedRequestQueue.push({
           onSuccess: (token: string) => {
