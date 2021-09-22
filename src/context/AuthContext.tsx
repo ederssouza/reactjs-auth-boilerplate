@@ -2,8 +2,8 @@ import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { api } from '../services/api'
-import { COOKIE_EXPIRATION_TIME } from '../utils/constants'
+import { api, setHeaderAuthorization } from '../services/api'
+import { COOKIE_EXPIRATION_TIME, REFRESH_TOKEN_COOKIE, TOKEN_COOKIE } from '../utils/constants'
 
 interface User {
   email: string
@@ -34,7 +34,8 @@ export function AuthProvider ({ children }: AuthProviderProps) {
   const history = useHistory()
   const { pathname } = useLocation()
 
-  const { 'reactauth.token': token } = parseCookies()
+  const cookies = parseCookies()
+  const token = cookies[TOKEN_COOKIE]
   const isAuthenticated = Boolean(token)
   const userData = user as User
 
@@ -43,12 +44,12 @@ export function AuthProvider ({ children }: AuthProviderProps) {
       const response = await api.post('/sessions', { email, password })
       const { token, refreshToken, permissions, roles } = response.data
 
-      setCookie(null, 'reactauth.token', token, {
+      setCookie(null, TOKEN_COOKIE, token, {
         maxAge: COOKIE_EXPIRATION_TIME,
         path: '/'
       })
 
-      setCookie(null, 'reactauth.refreshToken', refreshToken, {
+      setCookie(null, REFRESH_TOKEN_COOKIE, refreshToken, {
         maxAge: COOKIE_EXPIRATION_TIME,
         path: '/'
       })
@@ -59,27 +60,28 @@ export function AuthProvider ({ children }: AuthProviderProps) {
         roles
       })
 
-      api.defaults.headers.Authorization = `Bearer ${token}`
+      setHeaderAuthorization(api.defaults, token)
     } catch (error) {
       console.log('ERROR:', error)
     }
   }
 
-  function signOut () {
-    destroyCookie(null, 'reactauth.token')
-    destroyCookie(null, 'reactauth.refreshToken')
+  function signOut (pathname = '/login') {
+    destroyCookie(null, TOKEN_COOKIE)
+    destroyCookie(null, REFRESH_TOKEN_COOKIE)
     setUser(null)
-    history.push('/login')
+    history.push(pathname)
   }
 
   useEffect(() => {
-    if (!token) signOut()
+    if (!token) signOut(pathname)
   }, [pathname, token])
 
   useEffect(() => {
-    const { 'reactauth.token': token } = parseCookies()
+    const cookies = parseCookies()
+    const token = cookies[TOKEN_COOKIE]
 
-    api.defaults.headers.Authorization = `Bearer ${token}`
+    setHeaderAuthorization(api.defaults, token)
 
     if (token) {
       api.get('/me')
