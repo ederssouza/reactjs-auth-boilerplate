@@ -1,8 +1,6 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { parseCookies } from 'nookies'
 
-import { REFRESH_TOKEN_COOKIE, TOKEN_COOKIE } from '../utils/constants'
-import { createTokenCookies, removeTokenCookies } from '../utils/tokenCookies'
+import { createTokenCookies, getRefreshToken, getToken, removeTokenCookies } from '../utils/tokenCookies'
 import { api } from './api'
 
 interface IFailedRequestQueue {
@@ -42,9 +40,8 @@ function handleRefreshToken (refreshToken: string) {
 }
 
 function onRequest (config: AxiosRequestConfig): AxiosRequestConfig {
-  const cookies = parseCookies()
-  const token = cookies[TOKEN_COOKIE]
-  if (token) setAuthorizationHeader(config, token)
+  const token = getToken()
+  token && setAuthorizationHeader(config, token)
   return config
 }
 
@@ -60,8 +57,7 @@ function onResponseError (error: AxiosError): Promise<AxiosError | AxiosResponse
   if (error?.response?.status === 401) {
     if (error.response.data?.code === 'token.expired') {
       const originalConfig = error.config
-      const cookies = parseCookies()
-      const refreshToken = cookies[REFRESH_TOKEN_COOKIE]
+      const refreshToken = getRefreshToken()
 
       !isRefreshing && handleRefreshToken(refreshToken)
 
@@ -71,7 +67,9 @@ function onResponseError (error: AxiosError): Promise<AxiosError | AxiosResponse
             setAuthorizationHeader(originalConfig, token)
             resolve(api(originalConfig))
           },
-          onFailure: (error: AxiosError) => reject(error)
+          onFailure: (error: AxiosError) => {
+            reject(error)
+          }
         })
       })
     } else {

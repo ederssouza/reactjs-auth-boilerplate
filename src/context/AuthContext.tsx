@@ -1,10 +1,9 @@
-import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import { api } from '../services/api'
 import { setAuthorizationHeader } from '../services/interceptors'
-import { COOKIE_EXPIRATION_TIME, REFRESH_TOKEN_COOKIE, TOKEN_COOKIE } from '../utils/constants'
+import { createTokenCookies, getToken, removeTokenCookies } from '../utils/tokenCookies'
 
 interface User {
   email: string
@@ -34,9 +33,7 @@ export function AuthProvider ({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>()
   const history = useHistory()
   const { pathname } = useLocation()
-
-  const cookies = parseCookies()
-  const token = cookies[TOKEN_COOKIE]
+  const token = getToken()
   const isAuthenticated = Boolean(token)
   const userData = user as User
 
@@ -45,22 +42,8 @@ export function AuthProvider ({ children }: AuthProviderProps) {
       const response = await api.post('/sessions', { email, password })
       const { token, refreshToken, permissions, roles } = response.data
 
-      setCookie(null, TOKEN_COOKIE, token, {
-        maxAge: COOKIE_EXPIRATION_TIME,
-        path: '/'
-      })
-
-      setCookie(null, REFRESH_TOKEN_COOKIE, refreshToken, {
-        maxAge: COOKIE_EXPIRATION_TIME,
-        path: '/'
-      })
-
-      setUser({
-        email,
-        permissions,
-        roles
-      })
-
+      createTokenCookies(token, refreshToken)
+      setUser({ email, permissions, roles })
       setAuthorizationHeader(api.defaults, token)
     } catch (error) {
       console.log('ERROR:', error)
@@ -68,8 +51,7 @@ export function AuthProvider ({ children }: AuthProviderProps) {
   }
 
   function signOut (pathname = '/login') {
-    destroyCookie(null, TOKEN_COOKIE)
-    destroyCookie(null, REFRESH_TOKEN_COOKIE)
+    removeTokenCookies()
     setUser(null)
     history.push(pathname)
   }
@@ -79,19 +61,20 @@ export function AuthProvider ({ children }: AuthProviderProps) {
   }, [pathname, token])
 
   useEffect(() => {
-    const cookies = parseCookies()
-    const token = cookies[TOKEN_COOKIE]
+    const token = getToken()
+
+    async function getUserData () {
+      try {
+        const response = await api.get('/me')
+        const { email, permissions, roles } = response.data
+        setUser({ email, permissions, roles })
+      } catch (error) {
+        signOut()
+      }
+    }
 
     setAuthorizationHeader(api.defaults, token)
-
-    if (token) {
-      api.get('/me')
-        .then(response => {
-          const { email, permissions, roles } = response.data
-          setUser({ email, permissions, roles })
-        })
-        .catch(() => signOut())
-    }
+    token && getUserData()
   }, [])
 
   return (
