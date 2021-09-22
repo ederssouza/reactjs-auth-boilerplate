@@ -1,23 +1,28 @@
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import { destroyCookie, parseCookies, setCookie } from 'nookies'
 
-import { COOKIE_EXPIRATION_TIME } from '../utils/constants'
+import { COOKIE_EXPIRATION_TIME, REFRESH_TOKEN_COOKIE, TOKEN_COOKIE } from '../utils/constants'
 
 interface IFailedRequestQueue {
   onSuccess: (token: string) => void
-  onFailure: (err: AxiosError) => void
+  onFailure: (error: AxiosError) => void
 }
+
+let isRefreshing = false
+let failedRequestQueue: IFailedRequestQueue[] = []
 
 export const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL
 })
 
-let isRefreshing = false
-let failedRequestQueue: IFailedRequestQueue[] = []
+export function setHeaderAuthorization (request: AxiosRequestConfig, token: string) {
+  request.headers.Authorization = `Bearer ${token}`
+}
 
 api.interceptors.request.use(request => {
-  const { 'reactauth.token': token } = parseCookies()
-  if (token) request.headers.Authorization = `Bearer ${token}`
+  const cookies = parseCookies()
+  const token = cookies[TOKEN_COOKIE]
+  if (token) setHeaderAuthorization(request, token)
   return request
 }, (error) => {
   return Promise.reject(error)
@@ -30,7 +35,7 @@ api.interceptors.response.use(response => {
     if (error.response.data?.code === 'token.expired') {
       const originalConfig = error.config
       const cookies = parseCookies()
-      const { 'reactauth.refreshToken': refreshToken } = cookies
+      const refreshToken = cookies[REFRESH_TOKEN_COOKIE]
 
       // prevent a new request with old token
       if (!isRefreshing) {
@@ -40,30 +45,30 @@ api.interceptors.response.use(response => {
           .then(response => {
             const { token } = response.data
 
-            setCookie(null, 'reactauth.token', token, {
+            setCookie(null, TOKEN_COOKIE, token, {
               maxAge: COOKIE_EXPIRATION_TIME,
               path: '/'
             })
 
-            setCookie(null, 'reactauth.refreshToken', response.data.refreshToken, {
+            setCookie(null, REFRESH_TOKEN_COOKIE, response.data.refreshToken, {
               maxAge: COOKIE_EXPIRATION_TIME,
               path: '/'
             })
 
             // force set token
-            api.defaults.headers.Authorization = `Bearer ${token}`
+            setHeaderAuthorization(api.defaults, token)
 
             // calls the `onSuccess` method on the failed with list
             failedRequestQueue.forEach(request => request.onSuccess(token))
             failedRequestQueue = []
           })
-          .catch(err => {
+          .catch(error => {
             // calls the `onFailure` method on the failed with list
-            failedRequestQueue.forEach(request => request.onFailure(err))
+            failedRequestQueue.forEach(request => request.onFailure(error))
             failedRequestQueue = []
 
-            destroyCookie(null, 'reactauth.token')
-            destroyCookie(null, 'reactauth.refreshToken')
+            destroyCookie(null, TOKEN_COOKIE)
+            destroyCookie(null, REFRESH_TOKEN_COOKIE)
           })
           .finally(() => {
             isRefreshing = false
@@ -74,17 +79,17 @@ api.interceptors.response.use(response => {
       return new Promise((resolve, reject) => {
         failedRequestQueue.push({
           onSuccess: (token: string) => {
-            originalConfig.headers.Authorization = `Bearer ${token}`
+            setHeaderAuthorization(originalConfig, token)
             resolve(api(originalConfig))
           },
-          onFailure: (err: AxiosError) => {
-            reject(err)
+          onFailure: (error: AxiosError) => {
+            reject(error)
           }
         })
       })
     } else {
-      destroyCookie(null, 'reactauth.token')
-      destroyCookie(null, 'reactauth.refreshToken')
+      destroyCookie(null, TOKEN_COOKIE)
+      destroyCookie(null, REFRESH_TOKEN_COOKIE)
     }
   }
 
