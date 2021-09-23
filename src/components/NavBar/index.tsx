@@ -11,7 +11,8 @@ export function NavBar () {
       <Link to="/login">Login</Link>&nbsp;
       <Link to="/register">Register</Link>&nbsp;
       <Link to="/">Home</Link>&nbsp;
-      <Link to="/users">Users</Link>
+      <Link to="/users">Users</Link>&nbsp;
+      <Link to="/metrics">Metrics</Link>
 
       {isAuthenticated && (
         <>
