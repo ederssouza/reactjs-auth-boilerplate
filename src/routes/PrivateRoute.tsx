@@ -10,11 +10,20 @@ interface IPrivateRouteProps extends RouteProps {
 }
 
 export const PrivateRoute = ({ permissions, roles, ...rest }: IPrivateRouteProps) => {
-  const { isAuthenticated, user, loadingUserData, currentPathname } = useContext(AuthContext)
-  const { hasAllPermissions, hasAllRoles } = validateUserPermissions({ user, permissions, roles })
-  const pathname = isAuthenticated ? currentPathname : '/login'
+  const { isAuthenticated, user, loadingUserData } = useContext(AuthContext)
+  const { hasAllPermissions } = validateUserPermissions({ user, permissions, roles })
 
-  return (isAuthenticated && hasAllPermissions && hasAllRoles) || loadingUserData
-    ? <Route {...rest} />
-    : <Redirect to={{ pathname, state: { from: rest.location } }} />
+  if (loadingUserData) {
+    return null
+  }
+
+  if (!isAuthenticated) {
+    return <Redirect to={{ pathname: '/login', state: { from: rest.location } }} />
+  }
+
+  if (!hasAllPermissions) {
+    return <Redirect to={{ pathname: '/', state: { from: rest.location } }} />
+  }
+
+  return <Route {...rest} />
 }
