@@ -21,6 +21,8 @@ interface AuthContextData {
   signOut: () => void
   user: User
   isAuthenticated: boolean
+  loadingUserData: boolean
+  currentPathname: string
 }
 
 interface AuthProviderProps {
@@ -31,8 +33,9 @@ export const AuthContext = createContext({} as AuthContextData)
 
 export function AuthProvider ({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>()
-  const history = useHistory()
+  const [loadingUserData, setLoadingUserData] = useState(false)
   const { pathname } = useLocation()
+  const history = useHistory()
   const token = getToken()
   const isAuthenticated = Boolean(token)
   const userData = user as User
@@ -64,6 +67,8 @@ export function AuthProvider ({ children }: AuthProviderProps) {
     const token = getToken()
 
     async function getUserData () {
+      setLoadingUserData(true)
+
       try {
         const response = await api.get('/me')
         const { email, permissions, roles } = response.data
@@ -71,6 +76,8 @@ export function AuthProvider ({ children }: AuthProviderProps) {
       } catch (error) {
         signOut()
       }
+
+      setLoadingUserData(false)
     }
 
     setAuthorizationHeader(api.defaults, token)
@@ -78,7 +85,14 @@ export function AuthProvider ({ children }: AuthProviderProps) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user: userData, signIn, signOut }}>
+    <AuthContext.Provider value={{
+      isAuthenticated,
+      user: userData,
+      loadingUserData,
+      currentPathname: pathname,
+      signIn,
+      signOut
+    }}>
       {children}
     </AuthContext.Provider>
   )
