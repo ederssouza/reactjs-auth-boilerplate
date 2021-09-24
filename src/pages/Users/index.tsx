@@ -11,19 +11,30 @@ export function Users () {
   const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {
-    api.get('/users')
-      .then(res => setUsers(res.data.users))
+    async function loadUsers () {
+      try {
+        const response = await api.get('/users')
+        const users = response?.data?.users || []
+        setUsers(users)
+      } catch (error) {
+        console.log('ERROR:', error)
+      }
+    }
+
+    loadUsers()
   }, [])
 
   return (
     <div>
       <h1>Users</h1>
       <ul>
-        {users.map(user => (
-          <li key={user.id}>
-            <strong>ID:</strong> {user.id} <strong>Name:</strong> {user.name}
-          </li>
-        ))}
+        {users?.length > 0
+          ? users.map(user => (
+            <li key={user.id}>
+              <strong>ID:</strong> {user.id} <strong>Name:</strong> {user.name}
+            </li>
+          ))
+          : (<div>empty user list</div>)}
       </ul>
     </div>
   )
