@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import { api } from '../services/api'
 import { setAuthorizationHeader } from '../services/interceptors'
@@ -34,6 +34,7 @@ export function AuthProvider ({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>()
   const [loadingUserData, setLoadingUserData] = useState(true)
   const history = useHistory()
+  const { pathname } = useLocation()
   const token = getToken()
   const isAuthenticated = Boolean(token)
   const userData = user as User
@@ -51,16 +52,16 @@ export function AuthProvider ({ children }: AuthProviderProps) {
     }
   }
 
-  function signOut () {
+  function signOut (pathname = '/login') {
     removeTokenCookies()
     setUser(null)
     setLoadingUserData(false)
-    history.push('/login')
+    history.push(pathname)
   }
 
   useEffect(() => {
-    if (!token) signOut()
-  }, [token])
+    if (!token) signOut(pathname)
+  }, [pathname, token])
 
   useEffect(() => {
     const token = getToken()
