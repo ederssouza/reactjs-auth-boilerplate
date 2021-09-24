@@ -11,6 +11,7 @@ export function NavBar () {
     <div>
       <Link to="/login">Login</Link>
       <Link to="/register">Register</Link>
+      <Link to="/blog">Blog</Link>
       <Link to="/">Home</Link>
 
       <CanAccess permissions={['users.list']}>
