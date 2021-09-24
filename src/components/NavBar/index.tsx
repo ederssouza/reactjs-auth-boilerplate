@@ -25,7 +25,7 @@ export function NavBar () {
       {isAuthenticated && (
         <>
           <span>{user?.email}</span>
-          <button onClick={() => signOut()}>Logout</button>
+          <button data-testid="logout-button" onClick={() => signOut()}>Logout</button>
         </>
       )}
     </div>
