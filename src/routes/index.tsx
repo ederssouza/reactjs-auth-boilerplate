@@ -1,5 +1,6 @@
 import { Switch } from 'react-router-dom'
 
+import { Blog } from '../pages/Blog'
 import { Home } from '../pages/Home'
 import { Login } from '../pages/Login'
 import { Metrics } from '../pages/Metrics'
@@ -14,6 +15,11 @@ export const Routes = () => (
     <PublicRoute
       path="/login"
       component={Login}
+    />
+
+    <HybridRoute
+      path="/blog"
+      component={Blog}
     />
 
     <HybridRoute
