@@ -10,7 +10,7 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "react-scripts test --watchAll=false --maxWorkers=50%",
     "test:watch": "npm run test -- --watch --maxWorkers=25%",
-    "test:coverage": "npm run test --coverage --maxWorkers=25%",
+    "test:coverage": "npm run test -- --coverage --maxWorkers=25%",
     "test:coverage:watch": "npm run test -- --coverage --watch --maxWorkers=25%"
   },
   "dependencies": {
@@ -39,12 +39,20 @@
     "eslint-plugin-import-helpers": "^1.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-react": "^7.25.3"
+    "eslint-plugin-react": "^7.25.3",
+    "ts-jest": "^27.0.5"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/components/**/*.tsx",
+      "src/context/**/*.tsx",
+      "src/pages/**/*.tsx"
     ]
   },
   "browserslist": {
