@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
@@ -17,7 +18,7 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
-  signIn: (credentials: SignInCredentials) => Promise<void>
+  signIn: (credentials: SignInCredentials) => Promise<void | AxiosError>
   signOut: () => void
   user: User
   isAuthenticated: boolean
@@ -48,7 +49,8 @@ export function AuthProvider ({ children }: AuthProviderProps) {
       setUser({ email, permissions, roles })
       setAuthorizationHeader(api.defaults, token)
     } catch (error) {
-      console.log('ERROR:', error)
+      const err = error as AxiosError
+      return err
     }
   }
 
