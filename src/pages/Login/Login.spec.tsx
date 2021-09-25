@@ -1,17 +1,26 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
 import { Login } from '.'
+import { AuthContext } from '../../context/AuthContext'
+
+const providerUserUnloggedMock = {
+  signIn: jest.fn(),
+  signOut: jest.fn(),
+  user: null,
+  isAuthenticated: false,
+  loadingUserData: false
+}
 
 describe('Login page component', () => {
-  it('should render with success', () => {
-    render(<Login />)
-    const linkElement = screen.getByText(/Login/i)
-    expect(linkElement).toBeInTheDocument()
+  beforeEach(() => {
+    render(
+      <AuthContext.Provider value={providerUserUnloggedMock as any}>
+        <Login />
+      </AuthContext.Provider>
+    )
   })
 
-  it('should have a value on input value in the fields', () => {
-    render(<Login />)
-
+  it('should have a value on input on the fields', () => {
     const $inputEmail = screen.getByTestId('login-input-email') as HTMLInputElement
     const $inputPassword = screen.getByTestId('login-input-password') as HTMLInputElement
 
@@ -22,18 +31,18 @@ describe('Login page component', () => {
     expect($inputPassword.value).toEqual('senha@123')
   })
 
-  it('should disabled button when submit form', () => {
-    render(<Login />)
-
+  it('should disabled button when submit form', async () => {
     const $form = screen.getByTestId('login-form') as HTMLFormElement
     const $button = screen.getByTestId('login-submit-button') as HTMLButtonElement
 
-    console.log($button.innerHTML)
+    expect($button).not.toHaveAttribute('disabled')
+    expect($button).toHaveTextContent(/Submit/)
 
     fireEvent.submit($form)
 
-    console.log($button.innerHTML)
+    await waitFor(() => {
+      expect($button).toHaveAttribute('disabled')
+      expect($button).toHaveTextContent(/Loading/)
+    }, { timeout: 1000 })
   })
-
-  it.todo('handleSubmit')
 })
