@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { useEffect, useState } from 'react'
 
 import { api } from '../../services/api'
@@ -17,7 +18,8 @@ export function Users () {
         const users = response?.data?.users || []
         setUsers(users)
       } catch (error) {
-        console.log('ERROR:', error)
+        const err = error as AxiosError
+        return err
       }
     }
 
