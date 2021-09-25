@@ -18,6 +18,10 @@ export function NavBar () {
         <Link to="/users">Users</Link>
       </CanAccess>
 
+      <CanAccess permissions={['users.list']}>
+        <Link to="/profile">Profile</Link>
+      </CanAccess>
+
       <CanAccess permissions={['metrics.list']}>
         <Link to="/metrics">Metrics</Link>
       </CanAccess>
