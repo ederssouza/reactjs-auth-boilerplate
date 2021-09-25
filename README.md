@@ -22,14 +22,14 @@ This repository was created to assist in the authentication implementation proce
 
 Feel free to clone the project or use it as a template and make any changes you deem necessary.
 
-## Built Using
+## Built using
 
 - [React JS](https://reactjs.org): JavaScript library
 - [TypeScript](https://www.typescriptlang.org): JavaScript With Syntax For Types.
 - [Jest](https://jestjs.io): JavaScript Testing Framework
 - [React Testing Library](https://testing-library.com): Testing utilities
 
-## Getting Started
+## Getting started
 
 ### Prerequisites
 
