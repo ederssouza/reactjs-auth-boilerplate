@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { useContext } from 'react'
 import { mocked } from 'ts-jest/utils'
 
-import { AuthProvider } from '.'
-import { Profile } from '../../pages/Profile'
+import { AuthProvider, AuthContext } from '.'
 import { api } from '../../services/api'
 
 jest.mock('../../services/api')
@@ -15,6 +15,31 @@ jest.mock('react-router-dom', () => ({
     pathname: '/'
   })
 }))
+
+function SampleComponent () {
+  const { signIn, signOut } = useContext(AuthContext)
+
+  return (
+    <div>
+      <button
+        data-testid="signin-button"
+        onClick={() => signIn({
+          email: 'email@site.com',
+          password: 'password'
+        })}
+      >
+        signIn
+      </button>
+
+      <button
+        data-testid="signout-button"
+        onClick={() => signOut()}
+      >
+        signOut
+      </button>
+    </div>
+  )
+}
 
 describe('AuthProvider', () => {
   it('should dispatch signIn function when invoked and return valid response', async () => {
@@ -32,7 +57,7 @@ describe('AuthProvider', () => {
 
     render(
       <AuthProvider>
-        <Profile />
+        <SampleComponent />
       </AuthProvider>
     )
 
@@ -52,7 +77,7 @@ describe('AuthProvider', () => {
 
     render(
       <AuthProvider>
-        <Profile />
+        <SampleComponent />
       </AuthProvider>
     )
 
@@ -78,7 +103,7 @@ describe('AuthProvider', () => {
 
     render(
       <AuthProvider>
-        <Profile />
+        <SampleComponent />
       </AuthProvider>
     )
 
@@ -95,7 +120,7 @@ describe('AuthProvider', () => {
 
     render(
       <AuthProvider>
-        <Profile />
+        <SampleComponent />
       </AuthProvider>
     )
 
@@ -108,7 +133,7 @@ describe('AuthProvider', () => {
     // const signOut = jest.fn()
     render(
       <AuthProvider>
-        <Profile />
+        <SampleComponent />
       </AuthProvider>
     )
 
