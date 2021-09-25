@@ -36,9 +36,6 @@ describe('NavBar component', () => {
 
     expect(screen.getByText(/Login/)).toBeInTheDocument()
     expect(screen.getByText(/Login/)).toHaveAttribute('href', '/login')
-
-    expect(screen.getByText(/Blog/)).toBeInTheDocument()
-    expect(screen.getByText(/Blog/)).toHaveAttribute('href', '/blog')
   })
 
   it('should show user email when is authenticated', () => {
