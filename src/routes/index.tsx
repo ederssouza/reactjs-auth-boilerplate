@@ -4,6 +4,7 @@ import { Blog } from '../pages/Blog'
 import { Home } from '../pages/Home'
 import { Login } from '../pages/Login'
 import { Metrics } from '../pages/Metrics'
+import { Profile } from '../pages/Profile'
 import { Register } from '../pages/Register'
 import { Users } from '../pages/Users'
 import { HybridRoute } from './HybridRoute'
@@ -44,6 +45,11 @@ export const Routes = () => (
       path="/users"
       component={Users}
       permissions={['users.list', 'users.create']}
+    />
+
+    <HybridRoute
+      path="/profile"
+      component={Profile}
     />
   </Switch>
 )
