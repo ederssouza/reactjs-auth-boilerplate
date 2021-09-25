@@ -1,46 +1,209 @@
-# React JS Authentication Boilerplate
+<p align="center">
+  <h1 align="center">React JS Authentication Boilerplate</h1>
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+  <a href="https://app.travis-ci.com/ederssouza/reactjs-auth-boilerplate">
+    <img src="https://app.travis-ci.com/ederssouza/reactjs-auth-boilerplate.svg?branch=master" alt="Build Status" />
+  </a>
 
-## Available Scripts
+  <a href='https://coveralls.io/github/ederssouza/reactjs-auth-boilerplate?branch=master'>
+    <img src='https://coveralls.io/repos/github/ederssouza/reactjs-auth-boilerplate/badge.svg?branch=master' alt='Coverage Status' />
+  </a>
 
-In the project directory, you can run:
+  <a href="https://github.com/ederssouza/reactjs-auth-boilerplate/blob/master/LICENSE.md">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="Coverage Status" />
+  </a>
+</p>
 
-### `yarn start`
+## About
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This repository was created in order to assist in the process of implementing **authentication in React JS applications**. All components and contexts have unit tests and a **basic HTML structure without CSS**. The structure has resources to protect routes and control the visibility of components based on permissions, the entire process for the implementation is found in this document.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Built Using
 
-### `yarn test`
+- [React JS](https://reactjs.org): JavaScript library
+- [TypeScript](https://www.typescriptlang.org): JavaScript With Syntax For Types.
+- [Jest](https://jestjs.io): JavaScript Testing Framework
+- [React Testing Library](https://testing-library.com): Testing utilities
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `yarn build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You need to install on your machine [Node.js](https://nodejs.org) or [Yarn](https://yarnpkg.com).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installing dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+# or
+yarn install
+```
 
-### `yarn eject`
+## Project setup
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Compiles and hot-reloads for development
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+# start app open development mode
+yarn start
+# or
+npm run start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Compiles and minifies for production
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+yarn build
+# or
+npm run build
+```
 
-## Learn More
+### Lints and fixes files
+```bash
+# show errors
+yarn lint
+# or
+npm run lint
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# fix errors
+yarn lint:fix
+# or
+npm run lint:fix
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Run your unit tests
+
+```bash
+# run tests
+yarn test
+# or
+npm run test
+
+# run tests on watch mode
+yarn test:watch
+# or
+npm run test:watch
+
+# run tests on coverage mode
+yarn test:coverage
+# or
+npm run test:coverage
+
+# run tests on coverage with watch mode
+yarn test:coverage:watch
+# or
+npm run test:coverage:watch
+```
+
+## Route types
+
+The route components are based on `<Route />` component of [react-router-dom](https://reactrouter.com/web/guides/quick-start) and receive same props.
+
+### Public route
+
+The route can only be accessed if a user is not authenticated. If accessed after authentication, the user will be redirected `/` route.
+
+```js
+import { Switch } from 'react-router-dom'
+import { PublicRoute } from 'src/routes/PublicRoute'
+
+const SampleComponent = () => <div>Sample component</div>
+
+export const Routes = () => (
+  <Switch>
+    <PublicRoute
+      path="/login"
+      component={SampleComponent}
+    />
+  </Switch>
+)
+```
+
+### Hybrid route
+
+The route can be accessed whether a user is authenticated or not.
+
+```js
+import { Switch } from 'react-router-dom'
+import { HybridRoute } from 'src/routes/HybridRoute'
+
+const SampleComponent = () => <div>Sample component</div>
+
+export const Routes = () => (
+  <Switch>
+    <HybridRoute
+      path="/register"
+      component={SampleComponent}
+    />
+  </Switch>
+)
+```
+
+### Private route
+
+The route can only be accessed if a user is authenticated. Use permission props to access control.
+
+```js
+import { Switch } from 'react-router-dom'
+import { PrivateRoute } from 'src/routes/PrivateRoute'
+
+const SampleComponent = () => <div>Sample component</div>
+
+export const Routes = () => (
+  <Switch>
+    {/*
+      allow route access if the user has the permissions
+      `users.list` and `users.create`
+    */}
+    <PrivateRoute
+      path="/users"
+      component={SampleComponent}
+      permissions={['users.list', 'users.create']}
+    />
+  </Switch>
+)
+```
+
+## Control visibility of components
+
+Use the `CanAccess` component and pass `permissions` props to control the visibility of a component.
+
+```js
+import { CanAccess } from 'src/components/CanAccess'
+
+export function NavBar () {
+  return (
+    <>
+      {/*
+        the component is shown if the user has the permissions
+        `users.list` and `metrics.list`
+      */}
+      <CanAccess permissions={['users.list', 'metrics.list']}>
+        {/* YOUR COMPONENT HERE */}
+      </CanAccess>
+    </>
+  )
+}
+```
+
+## Contributing
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/ederssouza/reactjs-auth-boilerplate/tags).
+
+## Authors
+
+See also the list of [contributors](https://github.com/ederssouza/reactjs-auth-boilerplate/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+----
+
+Develop by Eder Sampaio 👋 &nbsp;[See my linkedin](https://www.linkedin.com/in/ederssouza).
