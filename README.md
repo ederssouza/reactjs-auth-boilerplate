@@ -18,7 +18,9 @@
 
 ## About
 
-This repository was created in order to assist in the process of implementing **authentication in React JS applications**. All components and contexts have unit tests and a **basic HTML structure without CSS**. The structure has resources to protect routes and control the visibility of components based on permissions, the entire process for the implementation is found in this document.
+This repository was created to assist in the authentication implementation process in React **JS applications with JWT and refresh token**. All components and contexts have **unit tests** and a **basic HTML structure without CSS**. The project has features to **secure routes** and **control the visibility of components** based on permissions, the entire implementation process is in this document.
+
+Feel free to clone the project or use it as a template and make any changes you deem necessary.
 
 ## Built Using
 
@@ -96,6 +98,22 @@ yarn test:coverage:watch
 # or
 npm run test:coverage:watch
 ```
+
+## Test users
+
+The app is integrated with the [node-api-refresh-token.herokuapp.com](https://node-api-refresh-token.herokuapp.com) API, configured in the `.env` file. There are two users with different accesses so that the tests can be performed:
+
+### Administrator
+
+- **Email**: admin@site.com
+- **Password**: password@123
+- **Permissions**: `users.list`, `users.create`, `metrics.list`
+
+### Client
+
+- **Email**: client@site.com
+- **Password**: password@123
+- **Permissions**: `metrics.list`
 
 ## Route types
 
