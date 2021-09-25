@@ -69,19 +69,24 @@ export function AuthProvider ({ children }: AuthProviderProps) {
     async function getUserData () {
       setLoadingUserData(true)
 
-      // try {
-      //   const response = await api.get('/me')
-      //   const { email, permissions, roles } = response?.data || {}
-      //   setUser({ email, permissions, roles })
-      // } catch (error) {
-      //   signOut()
-      // }
+      try {
+        const response = await api.get('/me')
+
+        if (response?.data) {
+          const { email, permissions, roles } = response.data
+          setUser({ email, permissions, roles })
+        }
+      } catch (error) {
+        signOut()
+      }
 
       setLoadingUserData(false)
     }
 
-    setAuthorizationHeader(api.defaults, token)
-    token && getUserData()
+    if (token) {
+      setAuthorizationHeader(api.defaults, token)
+      getUserData()
+    }
   }, [])
 
   return (
