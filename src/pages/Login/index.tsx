@@ -24,15 +24,13 @@ export function Login () {
   }
 
   async function handleSubmit (e: FormEvent) {
+    e.preventDefault()
+
     setLoginRequestStatus('loading')
 
-    try {
-      e.preventDefault()
-      await signIn(values)
-      setLoginRequestStatus('success')
-    } catch (error) {
-      setLoginRequestStatus('error')
-    }
+    await signIn(values)
+
+    setLoginRequestStatus('success')
   }
 
   useEffect(() => {
@@ -42,8 +40,6 @@ export function Login () {
 
   return (
     <div>
-      <h1>Login</h1>
-
       <form
         noValidate
         data-testid="login-form"
