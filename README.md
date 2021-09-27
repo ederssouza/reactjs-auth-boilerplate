@@ -16,6 +16,33 @@
   </a>
 </p>
 
+## Summary
+
+- [About](#about)
+- [Built using](#built-using)
+- [Project structure](#project-structure)
+- [Getting started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installing dependencies](#installing-dependencies)
+- [Project setup](#project-setup)
+  - [Compiles and hot-reloads for development](#compiles-and-hot-reloads-for-development)
+  - [Compiles and minifies for production](#compiles-and-minifies-for-production)
+  - [Lints and fixes files](#lints-and-fixes-files)
+  - [Run your unit tests](#run-your-unit-tests)
+- [Test users](#test-users)
+  - [Administrator](#administrator)
+  - [Client](#client)
+- [Route types](#route-types)
+  - [Public route](#public-route)
+  - [Hybrid route](#hybrid-route)
+  - [Private route](#private-route)
+- [Control visibility of components](#control-visibility-of-components)
+- [How to create a reducer?](#how-to-create-a-reducer)
+- [Contributing](#contributing)
+- [Versioning](#versioning)
+- [Authors](#authors)
+- [License](#license)
+
 ## About
 
 This repository was created to assist in the authentication implementation process in React **JS applications with JWT and refresh token**. All components and contexts have **unit tests** and a **basic HTML structure without CSS**. The project has features to **secure routes** and **control the visibility of components** based on permissions, the entire implementation process is in this document.
