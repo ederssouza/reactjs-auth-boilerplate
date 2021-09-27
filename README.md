@@ -20,7 +20,6 @@
 
 - [About](#about)
 - [Built using](#built-using)
-- [Project structure](#project-structure)
 - [Getting started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installing dependencies](#installing-dependencies)
@@ -37,7 +36,6 @@
   - [Hybrid route](#hybrid-route)
   - [Private route](#private-route)
 - [Control visibility of components](#control-visibility-of-components)
-- [How to create a reducer?](#how-to-create-a-reducer)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
 - [Authors](#authors)
