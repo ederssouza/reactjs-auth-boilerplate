@@ -1,4 +1,4 @@
-import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { AxiosDefaults, AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { createTokenCookies, getRefreshToken, getToken, removeTokenCookies } from '../utils/tokenCookies'
 import { api } from './api'
@@ -11,7 +11,7 @@ interface IFailedRequestQueue {
 let isRefreshing = false
 let failedRequestQueue: IFailedRequestQueue[] = []
 
-export function setAuthorizationHeader (request: AxiosRequestConfig, token: string) {
+export function setAuthorizationHeader (request: AxiosDefaults | AxiosRequestConfig | any, token: string) {
   request.headers.Authorization = `Bearer ${token}`
 }
 
