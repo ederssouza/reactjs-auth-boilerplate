@@ -46,11 +46,12 @@ export function Login () {
         onSubmit={handleSubmit}
       >
         <div>
-          <label htmlFor="">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             value={values.email}
             type="email"
             name="email"
+            id="email"
             data-testid="login-input-email"
             disabled={loginRequestStatus === 'loading'}
             onChange={handleChange}
@@ -58,11 +59,12 @@ export function Login () {
         </div>
 
         <div>
-          <label htmlFor="">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             value={values.password}
             type="password"
             name="password"
+            id="password"
             data-testid="login-input-password"
             disabled={loginRequestStatus === 'loading'}
             onChange={handleChange}
