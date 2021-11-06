@@ -8,9 +8,7 @@ import { api } from '../../services/api'
 jest.mock('../../services/api')
 
 jest.mock('react-router-dom', () => ({
-  useHistory: () => ({
-    push: jest.fn()
-  }),
+  useNavigate: () => jest.fn(),
   useLocation: () => ({
     pathname: '/'
   })
