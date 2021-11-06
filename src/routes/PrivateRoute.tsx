@@ -1,15 +1,22 @@
-import { useContext } from 'react'
-import { Route, Redirect, RouteProps } from 'react-router-dom'
+import { ReactNode, useContext } from 'react'
+import { Navigate } from 'react-router-dom'
 
 import { AuthContext } from '../context/AuthContext'
 import { validateUserPermissions } from '../utils/validateUserPermissions'
 
-interface IPrivateRouteProps extends RouteProps {
+interface IPrivateRoute {
   permissions?: string[]
   roles?: string[]
+  redirectTo?: string
+  children: ReactNode
 }
 
-export const PrivateRoute = ({ permissions, roles, ...rest }: IPrivateRouteProps) => {
+export function PrivateRoute ({
+  permissions,
+  roles,
+  redirectTo = '/login',
+  children
+}: IPrivateRoute) {
   const { isAuthenticated, user, loadingUserData } = useContext(AuthContext)
   const { hasAllPermissions } = validateUserPermissions({ user, permissions, roles })
 
@@ -18,12 +25,12 @@ export const PrivateRoute = ({ permissions, roles, ...rest }: IPrivateRouteProps
   }
 
   if (!isAuthenticated) {
-    return <Redirect to={{ pathname: '/login', state: { from: rest.location } }} />
+    return <Navigate to={redirectTo} />
   }
 
   if (!hasAllPermissions) {
-    return <Redirect to={{ pathname: '/', state: { from: rest.location } }} />
+    return <Navigate to="/" />
   }
 
-  return <Route {...rest} />
+  return <>{children}</>
 }

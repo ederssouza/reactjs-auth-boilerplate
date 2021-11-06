@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios'
 import { createContext, ReactNode, useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import { api } from '../../services/api'
 import { setAuthorizationHeader } from '../../services/interceptors'
@@ -34,7 +34,7 @@ export const AuthContext = createContext({} as AuthContextData)
 export function AuthProvider ({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>()
   const [loadingUserData, setLoadingUserData] = useState(true)
-  const history = useHistory()
+  const navigate = useNavigate()
   const { pathname } = useLocation()
   const token = getToken()
   const isAuthenticated = Boolean(token)
@@ -58,7 +58,7 @@ export function AuthProvider ({ children }: AuthProviderProps) {
     removeTokenCookies()
     setUser(null)
     setLoadingUserData(false)
-    history.push(pathname)
+    navigate(pathname)
   }
 
   useEffect(() => {

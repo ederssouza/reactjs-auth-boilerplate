@@ -1,12 +1,13 @@
-import { useContext } from 'react'
-import { Route, Redirect, RouteProps } from 'react-router-dom'
+import { ReactNode, useContext } from 'react'
+import { Navigate } from 'react-router-dom'
 
 import { AuthContext } from '../context/AuthContext'
 
-export const PublicRoute = (props: RouteProps) => {
-  const { isAuthenticated } = useContext(AuthContext)
+interface IPublicRoute {
+  children: ReactNode
+}
 
-  return isAuthenticated
-    ? (<Redirect to={{ pathname: '/', state: { from: props.location } }} />)
-    : (<Route {...props} />)
+export function PublicRoute ({ children }: IPublicRoute) {
+  const { isAuthenticated } = useContext(AuthContext)
+  return isAuthenticated ? <Navigate to="/" /> : <>{children}</>
 }
