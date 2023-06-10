@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
 import { Login } from '.'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../contexts/AuthContext'
 
 const providerUserUnloggedMock = {
   signIn: jest.fn(),
