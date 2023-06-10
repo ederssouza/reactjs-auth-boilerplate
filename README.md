@@ -50,7 +50,7 @@ Feel free to clone the project or use it as a template and make any changes you 
 ## Built using
 
 - [React JS](https://reactjs.org): JavaScript library
-- [TypeScript](https://www.typescriptlang.org): JavaScript With Syntax For Types.
+- [TypeScript](https://www.typescriptlang.org): JavaScript With Syntax For Types
 - [Jest](https://jestjs.io): JavaScript Testing Framework
 - [React Testing Library](https://testing-library.com): Testing utilities
 
