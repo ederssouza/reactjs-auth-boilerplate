@@ -14,8 +14,18 @@ export function Login () {
   const [loginRequestStatus, setLoginRequestStatus] = useState('success')
   const { signIn } = useContext(AuthContext)
 
-  function handleChange (e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target
+  const users = [
+    { name: 'Admin', email: 'admin@site.com', password: 'password@123' },
+    { name: 'Client', email: 'client@site.com', password: 'password@123' }
+  ]
+
+  function handleUserChange (event: React.ChangeEvent<HTMLSelectElement>) {
+    const user = JSON.parse(event.target.value)
+    if (user) setValues(user)
+  }
+
+  function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target
 
     setValues({
       ...values,
@@ -40,6 +50,15 @@ export function Login () {
 
   return (
     <div>
+      <select onChange={handleUserChange}>
+        <option>Select an user to test</option>
+        {users.map(user => (
+          <option key={user.email} value={JSON.stringify(user)}>
+            {user.name}
+          </option>
+        ))}
+      </select>
+
       <form
         noValidate
         data-testid="login-form"
