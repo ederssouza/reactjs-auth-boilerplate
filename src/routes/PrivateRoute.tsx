@@ -1,7 +1,7 @@
-import { ReactNode, useContext } from 'react'
+import { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 
-import { AuthContext } from '../contexts/AuthContext'
+import { useUserSession } from '../hooks/useUserSession'
 import { validateUserPermissions } from '../utils/validateUserPermissions'
 
 type Props = {
@@ -17,7 +17,7 @@ export function PrivateRoute ({
   redirectTo = '/login',
   children
 }: Props) {
-  const { isAuthenticated, user, loadingUserData } = useContext(AuthContext)
+  const { isAuthenticated, user, loadingUserData } = useUserSession()
   const { hasAllPermissions } = validateUserPermissions({ user, permissions, roles })
 
   if (loadingUserData) {

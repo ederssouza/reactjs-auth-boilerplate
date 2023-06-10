@@ -1,6 +1,6 @@
-import { ReactNode, useContext } from 'react'
+import { ReactNode } from 'react'
 
-import { AuthContext } from '../../contexts/AuthContext'
+import { useUserSession } from '../../hooks/useUserSession'
 import { validateUserPermissions } from '../../utils/validateUserPermissions'
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function CanAccess ({ children, permissions, roles }: Props) {
-  const { isAuthenticated, user } = useContext(AuthContext)
+  const { isAuthenticated, user } = useUserSession()
   const { hasAllPermissions, hasAllRoles } = validateUserPermissions({
     user,
     permissions,

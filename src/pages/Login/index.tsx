@@ -1,6 +1,6 @@
-import React, { FormEvent, useContext, useEffect, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 
-import { AuthContext } from '../../contexts/AuthContext'
+import { useUserSession } from '../../hooks/useUserSession'
 
 function initialFormValues () {
   return {
@@ -12,7 +12,7 @@ function initialFormValues () {
 export function Login () {
   const [values, setValues] = useState(initialFormValues)
   const [loginRequestStatus, setLoginRequestStatus] = useState('success')
-  const { signIn } = useContext(AuthContext)
+  const { signIn } = useUserSession()
 
   const users = [
     { name: 'Admin', email: 'admin@site.com', password: 'password@123' },

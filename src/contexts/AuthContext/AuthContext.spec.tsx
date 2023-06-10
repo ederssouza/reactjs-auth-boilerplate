@@ -1,8 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { useContext } from 'react'
 import { mocked } from 'ts-jest/utils'
 
-import { AuthContext } from '.'
+import { useUserSession } from '../../hooks/useUserSession'
 import { AuthProvider } from '../../providers/AuthProvider'
 import { api } from '../../services/api'
 
@@ -16,7 +15,7 @@ jest.mock('react-router-dom', () => ({
 }))
 
 function SampleComponent () {
-  const { signIn, signOut } = useContext(AuthContext)
+  const { signIn, signOut } = useUserSession()
 
   return (
     <div>

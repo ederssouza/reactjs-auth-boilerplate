@@ -1,11 +1,10 @@
-import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
-import { AuthContext } from '../../contexts/AuthContext'
+import { useUserSession } from '../../hooks/useUserSession'
 import { CanAccess } from '../CanAccess'
 
 export function NavBar () {
-  const { isAuthenticated, user, signOut } = useContext(AuthContext)
+  const { isAuthenticated, user, signOut } = useUserSession()
 
   return (
     <div>
