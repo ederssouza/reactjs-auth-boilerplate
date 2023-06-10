@@ -50,10 +50,12 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/components/**/*.tsx",
-      "src/context/**/*.tsx",
+      "src/components/**/*.ts(x)?",
+      "src/contexts/**/*.ts(x)?",
       "src/hooks/**/*.ts(x)?",
-      "src/pages/**/*.tsx"
+      "src/pages/**/*.ts(x)?",
+      "src/providers/**/*.ts(x)?",
+      "!src/**/index.ts"
     ]
   },
   "browserslist": {
