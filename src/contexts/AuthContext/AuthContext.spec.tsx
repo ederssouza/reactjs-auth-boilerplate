@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { mocked } from 'ts-jest/utils'
 
-import { useUserSession } from '../../hooks/useUserSession'
-import { AuthProvider } from '../../providers/AuthProvider'
+import { useUserSession } from '../../hooks'
+import { AuthProvider } from '../../providers'
 import { api } from '../../services/api'
 
 jest.mock('../../services/api')

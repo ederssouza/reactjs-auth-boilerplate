@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 
-import { Metrics } from '.'
+import Metrics from './Metrics'
 
 describe('Metrics page component', () => {
   it('should render with success', () => {

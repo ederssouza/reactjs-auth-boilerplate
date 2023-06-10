@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 
-import { Register } from '.'
+import Register from './Register'
 
 describe('Register page component', () => {
   it('should render with success', () => {

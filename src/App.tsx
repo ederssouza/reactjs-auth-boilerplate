@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
 
-import { NavBar } from './components/NavBar'
-import { AuthProvider } from './providers/AuthProvider'
+import { NavBar } from './components'
+import { AuthProvider } from './providers'
 import { RouteList } from './routes'
 
 const App = () => (

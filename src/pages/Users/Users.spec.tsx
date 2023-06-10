@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { mocked } from 'ts-jest/utils'
 
-import { Users } from '.'
 import { api } from '../../services/api'
+import Users from './Users'
 
 jest.mock('../../services/api')
 

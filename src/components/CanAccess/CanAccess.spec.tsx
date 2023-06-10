@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 
-import { CanAccess } from '.'
-import { useUserSession } from '../../hooks/useUserSession'
+import { useUserSession } from '../../hooks'
 import { validateUserPermissions } from '../../utils/validateUserPermissions'
+import CanAccess from './CanAccess'
 
 jest.mock('../../hooks/useUserSession', () => ({
   useUserSession: jest.fn()
