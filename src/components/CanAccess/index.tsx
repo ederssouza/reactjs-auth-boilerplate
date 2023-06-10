@@ -3,13 +3,13 @@ import { ReactNode, useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { validateUserPermissions } from '../../utils/validateUserPermissions'
 
-interface ICanAccessProps {
+type Props = {
   children: ReactNode
   permissions?: string[]
   roles?: string[]
 }
 
-export function CanAccess ({ children, permissions, roles }: ICanAccessProps) {
+export function CanAccess ({ children, permissions, roles }: Props) {
   const { isAuthenticated, user } = useContext(AuthContext)
   const { hasAllPermissions, hasAllRoles } = validateUserPermissions({ user, permissions, roles })
 

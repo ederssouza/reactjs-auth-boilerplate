@@ -3,11 +3,11 @@ import { Navigate } from 'react-router-dom'
 
 import { AuthContext } from '../context/AuthContext'
 
-interface IPublicRoute {
+type Props = {
   children: ReactNode
 }
 
-export function PublicRoute ({ children }: IPublicRoute) {
+export function PublicRoute ({ children }: Props) {
   const { isAuthenticated } = useContext(AuthContext)
   return isAuthenticated ? <Navigate to="/" /> : <>{children}</>
 }

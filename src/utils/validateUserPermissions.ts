@@ -1,9 +1,9 @@
-interface User {
+type User = {
   permissions: string[]
   roles: string[]
 }
 
-interface validateUserPermissionsParams {
+type Params = {
   user: User
   permissions?: string[]
   roles?: string[]
@@ -13,7 +13,7 @@ export function validateUserPermissions ({
   user,
   permissions,
   roles
-}: validateUserPermissionsParams) {
+}: Params) {
   let hasAllPermissions = true
   let hasAllRoles = true
 

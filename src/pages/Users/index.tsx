@@ -1,17 +1,15 @@
 import { AxiosError } from 'axios'
 import { useEffect, useState } from 'react'
-// import { useParams } from 'react-router-dom'
 
 import { api } from '../../services/api'
 
-interface User {
+type User = {
   id: number
   name: string
 }
 
 export function Users () {
   const [users, setUsers] = useState<User[]>([])
-  // const params = useParams()
 
   useEffect(() => {
     async function loadUsers () {
@@ -31,7 +29,6 @@ export function Users () {
   return (
     <div>
       <h1>Users</h1>
-      {/* {params?.id && <h2>User ID: {params.id}</h2>} */}
 
       <ul>
         {users?.length > 0

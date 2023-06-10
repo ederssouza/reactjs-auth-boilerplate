@@ -6,18 +6,18 @@ import { api } from '../../services/api'
 import { setAuthorizationHeader } from '../../services/interceptors'
 import { createTokenCookies, getToken, removeTokenCookies } from '../../utils/tokenCookies'
 
-interface User {
+type User = {
   email: string
   permissions: string[]
   roles: string[]
 }
 
-interface SignInCredentials {
+type SignInCredentials = {
   email: string
   password: string
 }
 
-interface AuthContextData {
+type AuthContextData = {
   signIn: (credentials: SignInCredentials) => Promise<void | AxiosError>
   signOut: () => void
   user: User
@@ -25,7 +25,7 @@ interface AuthContextData {
   loadingUserData: boolean
 }
 
-interface AuthProviderProps {
+type AuthProviderProps = {
   children: ReactNode
 }
 
