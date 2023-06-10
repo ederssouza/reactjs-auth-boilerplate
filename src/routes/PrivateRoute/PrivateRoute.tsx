@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 
-import { useUserSession } from '../hooks/useUserSession'
-import { validateUserPermissions } from '../utils/validateUserPermissions'
+import { useUserSession } from '../../hooks'
+import { validateUserPermissions } from '../../utils/validateUserPermissions'
 
 type Props = {
   permissions?: string[]
@@ -11,7 +11,7 @@ type Props = {
   children: ReactNode
 }
 
-export function PrivateRoute ({
+function PrivateRoute ({
   permissions,
   roles,
   redirectTo = '/login',
@@ -34,3 +34,5 @@ export function PrivateRoute ({
 
   return <>{children}</>
 }
+
+export default PrivateRoute
