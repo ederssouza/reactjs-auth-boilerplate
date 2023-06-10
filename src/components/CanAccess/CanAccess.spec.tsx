@@ -19,7 +19,7 @@ describe('CanAccess component', () => {
     })
   })
 
-  describe('when user does not have permission', () => {
+  describe('when the user does not have permission', () => {
     it('should not render child component', () => {
       (validateUserPermissions as jest.Mock).mockReturnValue({
         hasAllPermissions: false,
@@ -32,7 +32,7 @@ describe('CanAccess component', () => {
     })
   })
 
-  describe('when user has permission', () => {
+  describe('when the user has permission', () => {
     it('should render child component', () => {
       (validateUserPermissions as jest.Mock).mockReturnValue({
         hasAllPermissions: true,
