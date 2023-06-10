@@ -1,9 +1,5 @@
-import { useContext } from 'react'
-
-import { AuthContext } from '../contexts'
-
-export function useUserSession () {
-  const data = useContext(AuthContext)
-
-  return data
-}
+export * from './Home'
+export * from './Login'
+export * from './Metrics'
+export * from './Register'
+export * from './Users'
