@@ -1,6 +1,6 @@
 import { ReactNode, useContext } from 'react'
 
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../contexts/AuthContext'
 import { validateUserPermissions } from '../../utils/validateUserPermissions'
 
 type Props = {
@@ -17,9 +17,5 @@ export function CanAccess ({ children, permissions, roles }: Props) {
     return null
   }
 
-  return (
-    <>
-      {children}
-    </>
-  )
+  return <>{children}</>
 }
