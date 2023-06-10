@@ -2,7 +2,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { NavBar } from './components'
 import { AuthProvider } from './providers'
-import { RouteList } from './routes'
+import { RouteList } from './router'
 
 const App = () => (
   <BrowserRouter>
