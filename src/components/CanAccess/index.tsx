@@ -11,7 +11,11 @@ type Props = {
 
 export function CanAccess ({ children, permissions, roles }: Props) {
   const { isAuthenticated, user } = useContext(AuthContext)
-  const { hasAllPermissions, hasAllRoles } = validateUserPermissions({ user, permissions, roles })
+  const { hasAllPermissions, hasAllRoles } = validateUserPermissions({
+    user,
+    permissions,
+    roles
+  })
 
   if (!isAuthenticated || !hasAllPermissions || !hasAllRoles) {
     return null
