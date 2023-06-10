@@ -9,22 +9,24 @@ export function NavBar () {
 
   return (
     <div>
-      <Link to="/login">Login</Link>
-      <Link to="/register">Register</Link>
-      <Link to="/">Home</Link>
+      <ul>
+        <li><Link to="/login">Login</Link></li>
+        <li><Link to="/register">Register</Link></li>
+        <li><Link to="/">Home</Link></li>
 
-      <CanAccess permissions={['users.list']}>
-        <Link to="/users">Users</Link>
-      </CanAccess>
+        <CanAccess permissions={['users.list']}>
+          <li><Link to="/users">Users</Link></li>
+        </CanAccess>
 
-      <CanAccess permissions={['metrics.list']}>
-        <Link to="/metrics">Metrics</Link>
-      </CanAccess>
+        <CanAccess permissions={['metrics.list']}>
+          <li><Link to="/metrics">Metrics</Link></li>
+        </CanAccess>
+      </ul>
 
       {isAuthenticated && (
         <>
-          <span>{user?.email}</span>
-          <button data-testid="logout-button" onClick={() => signOut()}>Logout</button>
+          <span style={{ marginRight: 4 }}>{user?.email}</span>
+          <button data-testid="logout-button" onClick={signOut}>Logout</button>
         </>
       )}
     </div>
