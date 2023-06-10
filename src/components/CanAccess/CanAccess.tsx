@@ -9,7 +9,9 @@ type Props = {
   roles?: string[]
 }
 
-function CanAccess ({ children, permissions, roles }: Props) {
+function CanAccess (props: Props) {
+  const { children, permissions, roles } = props
+
   const { isAuthenticated, user } = useUserSession()
   const { hasAllPermissions, hasAllRoles } = validateUserPermissions({
     user,

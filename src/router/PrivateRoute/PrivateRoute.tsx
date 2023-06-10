@@ -11,12 +11,9 @@ type Props = {
   children: ReactNode
 }
 
-function PrivateRoute ({
-  permissions,
-  roles,
-  redirectTo = '/login',
-  children
-}: Props) {
+function PrivateRoute (props: Props) {
+  const { permissions, roles, redirectTo = '/login', children } = props
+
   const { isAuthenticated, user, loadingUserData } = useUserSession()
   const { hasAllPermissions } = validateUserPermissions({ user, permissions, roles })
 

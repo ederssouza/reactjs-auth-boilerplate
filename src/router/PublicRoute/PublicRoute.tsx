@@ -7,7 +7,9 @@ type Props = {
   children: ReactNode
 }
 
-function PublicRoute ({ children }: Props) {
+function PublicRoute (props: Props) {
+  const { children } = props
+
   const { isAuthenticated } = useUserSession()
 
   return isAuthenticated ? <Navigate to="/" /> : <>{children}</>

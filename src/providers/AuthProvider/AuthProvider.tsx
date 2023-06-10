@@ -7,11 +7,13 @@ import { api } from '../../services/api'
 import { setAuthorizationHeader } from '../../services/interceptors'
 import { createTokenCookies, getToken, removeTokenCookies } from '../../utils/tokenCookies'
 
-type AuthProviderProps = {
+type Props = {
   children: ReactNode
 }
 
-function AuthProvider ({ children }: AuthProviderProps) {
+function AuthProvider (props: Props) {
+  const { children } = props
+
   const [user, setUser] = useState<User | null>()
   const [loadingUserData, setLoadingUserData] = useState(true)
   const navigate = useNavigate()
@@ -20,7 +22,9 @@ function AuthProvider ({ children }: AuthProviderProps) {
   const isAuthenticated = Boolean(token)
   const userData = user as User
 
-  async function signIn ({ email, password }: SignInCredentials) {
+  async function signIn (params: SignInCredentials) {
+    const { email, password } = params
+
     try {
       const response = await api.post('/sessions', { email, password })
       const { token, refreshToken, permissions, roles } = response.data
