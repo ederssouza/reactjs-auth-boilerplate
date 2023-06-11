@@ -1,37 +1,19 @@
 import { AxiosError } from 'axios'
-import { createContext, ReactNode, useEffect, useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { ReactNode, useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
+import { AuthContext, SignInCredentials, User } from '../../contexts'
 import { api } from '../../services/api'
 import { setAuthorizationHeader } from '../../services/interceptors'
 import { createTokenCookies, getToken, removeTokenCookies } from '../../utils/tokenCookies'
 
-type User = {
-  email: string
-  permissions: string[]
-  roles: string[]
-}
-
-type SignInCredentials = {
-  email: string
-  password: string
-}
-
-type AuthContextData = {
-  signIn: (credentials: SignInCredentials) => Promise<void | AxiosError>
-  signOut: () => void
-  user: User
-  isAuthenticated: boolean
-  loadingUserData: boolean
-}
-
-type AuthProviderProps = {
+type Props = {
   children: ReactNode
 }
 
-export const AuthContext = createContext({} as AuthContextData)
+function AuthProvider (props: Props) {
+  const { children } = props
 
-export function AuthProvider ({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>()
   const [loadingUserData, setLoadingUserData] = useState(true)
   const navigate = useNavigate()
@@ -40,7 +22,9 @@ export function AuthProvider ({ children }: AuthProviderProps) {
   const isAuthenticated = Boolean(token)
   const userData = user as User
 
-  async function signIn ({ email, password }: SignInCredentials) {
+  async function signIn (params: SignInCredentials) {
+    const { email, password } = params
+
     try {
       const response = await api.post('/sessions', { email, password })
       const { token, refreshToken, permissions, roles } = response.data
@@ -103,3 +87,5 @@ export function AuthProvider ({ children }: AuthProviderProps) {
     </AuthContext.Provider>
   )
 }
+
+export default AuthProvider

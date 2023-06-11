@@ -8,7 +8,7 @@ type User = {
   name: string
 }
 
-export function Users () {
+function Users () {
   const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {
@@ -42,3 +42,5 @@ export function Users () {
     </div>
   )
 }
+
+export default Users

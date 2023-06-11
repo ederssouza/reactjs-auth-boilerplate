@@ -1,13 +1,14 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { ReactNode } from 'react'
+import { MemoryRouter } from 'react-router-dom'
 
-import { NavBar } from '.'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../contexts/AuthContext'
+import NavBar from './NavBar'
 
 const providerUserUnloggedMock = {
   signIn: jest.fn(),
   signOut: jest.fn(),
-  user: null,
+  user: undefined,
   isAuthenticated: false,
   loadingUserData: false
 }
@@ -24,45 +25,55 @@ const providerUserLoggedMock = {
   loadingUserData: false
 }
 
+type WrapperProps = {
+  children: ReactNode
+}
+
+function wrapper (props: WrapperProps) {
+  const { children } = props
+
+  return <MemoryRouter>{children}</MemoryRouter>
+}
+
 describe('NavBar component', () => {
   it('should render with success', () => {
     render(
-      <BrowserRouter>
-        <AuthContext.Provider value={providerUserUnloggedMock as any}>
-          <NavBar />
-        </AuthContext.Provider>
-      </BrowserRouter>
+      <AuthContext.Provider value={providerUserUnloggedMock}>
+        <NavBar />
+      </AuthContext.Provider>,
+      { wrapper }
     )
 
-    expect(screen.getByText(/Login/)).toBeInTheDocument()
     expect(screen.getByText(/Login/)).toHaveAttribute('href', '/login')
   })
 
-  it('should show user email when is authenticated', () => {
-    render(
-      <BrowserRouter>
-        <AuthContext.Provider value={providerUserLoggedMock as any}>
-          <NavBar />
-        </AuthContext.Provider>
-      </BrowserRouter>
-    )
+  describe('when the user is authenticated', () => {
+    it('should show user email', () => {
+      render(
+      <AuthContext.Provider value={providerUserLoggedMock}>
+        <NavBar />
+      </AuthContext.Provider>,
+      { wrapper }
+      )
 
-    expect(screen.getByText(/email@site\.com/)).toBeInTheDocument()
+      expect(screen.getByText(/email@site\.com/)).toBeInTheDocument()
+    })
   })
 
-  it('should logout user on click logout button', () => {
-    render(
-      <BrowserRouter>
-        <AuthContext.Provider value={providerUserLoggedMock as any}>
-          <NavBar />
-        </AuthContext.Provider>
-      </BrowserRouter>
-    )
+  describe('when the user clicks on the logout button', () => {
+    it('should logout user', () => {
+      render(
+      <AuthContext.Provider value={providerUserLoggedMock}>
+        <NavBar />
+      </AuthContext.Provider>,
+      { wrapper }
+      )
 
-    const $logoutButton = screen.getByTestId('logout-button')
+      const logoutButton = screen.getByRole('button', { name: /logout/i })
 
-    fireEvent.click($logoutButton)
+      fireEvent.click(logoutButton)
 
-    expect(providerUserLoggedMock.signOut).toBeCalledTimes(1)
+      expect(providerUserLoggedMock.signOut).toBeCalledTimes(1)
+    })
   })
 })

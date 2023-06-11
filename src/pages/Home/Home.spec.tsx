@@ -1,11 +1,14 @@
 import { render, screen } from '@testing-library/react'
 
-import { Home } from '.'
+import Home from './Home'
 
 describe('Home page component', () => {
   it('should render with success', () => {
     render(<Home />)
-    const linkElement = screen.getByText(/Home/i)
-    expect(linkElement).toBeInTheDocument()
+
+    expect(screen.getByRole('heading', {
+      name: 'Home',
+      level: 1
+    })).toBeInTheDocument()
   })
 })

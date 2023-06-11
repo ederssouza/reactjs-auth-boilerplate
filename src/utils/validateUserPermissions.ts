@@ -4,7 +4,7 @@ type User = {
 }
 
 type Params = {
-  user: User
+  user?: User
   permissions?: string[]
   roles?: string[]
 }

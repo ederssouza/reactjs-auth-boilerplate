@@ -1,6 +1,6 @@
-import React, { FormEvent, useContext, useEffect, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 
-import { AuthContext } from '../../context/AuthContext'
+import { useUserSession } from '../../hooks'
 
 function initialFormValues () {
   return {
@@ -9,13 +9,23 @@ function initialFormValues () {
   }
 }
 
-export function Login () {
+function Login () {
   const [values, setValues] = useState(initialFormValues)
   const [loginRequestStatus, setLoginRequestStatus] = useState('success')
-  const { signIn } = useContext(AuthContext)
+  const { signIn } = useUserSession()
 
-  function handleChange (e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target
+  const users = [
+    { name: 'Admin', email: 'admin@site.com', password: 'password@123' },
+    { name: 'Client', email: 'client@site.com', password: 'password@123' }
+  ]
+
+  function handleUserChange (event: React.ChangeEvent<HTMLSelectElement>) {
+    const user = event.target.value
+    setValues(JSON.parse(user))
+  }
+
+  function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target
 
     setValues({
       ...values,
@@ -40,11 +50,18 @@ export function Login () {
 
   return (
     <div>
-      <form
-        noValidate
-        data-testid="login-form"
-        onSubmit={handleSubmit}
-      >
+      <form noValidate onSubmit={handleSubmit}>
+        <select name="select-user" onChange={handleUserChange}>
+          <option value="" style={{ display: 'none' }}>
+            Select an user to test
+          </option>
+          {users.map(user => (
+            <option key={user.email} value={JSON.stringify(user)}>
+              {user.name}
+            </option>
+          ))}
+        </select>
+
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -52,7 +69,6 @@ export function Login () {
             type="email"
             name="email"
             id="email"
-            data-testid="login-input-email"
             disabled={loginRequestStatus === 'loading'}
             onChange={handleChange}
           />
@@ -65,7 +81,6 @@ export function Login () {
             type="password"
             name="password"
             id="password"
-            data-testid="login-input-password"
             disabled={loginRequestStatus === 'loading'}
             onChange={handleChange}
           />
@@ -73,7 +88,6 @@ export function Login () {
 
         <button
           type="submit"
-          data-testid="login-submit-button"
           disabled={loginRequestStatus === 'loading'}
         >
           {loginRequestStatus === 'loading' ? 'Loading...' : 'Submit'}
@@ -82,3 +96,5 @@ export function Login () {
     </div>
   )
 }
+
+export default Login
