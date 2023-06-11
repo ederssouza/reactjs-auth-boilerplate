@@ -1,5 +1,4 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { mocked } from 'ts-jest/utils'
 
 import { useUserSession } from '../../hooks'
 import { AuthProvider } from '../../providers'
@@ -20,75 +19,72 @@ function SampleComponent () {
   return (
     <div>
       <button
-        data-testid="signin-button"
         onClick={() => signIn({
           email: 'email@site.com',
           password: 'password'
         })}
       >
-        signIn
+        Sign in
       </button>
 
-      <button
-        data-testid="signout-button"
-        onClick={() => signOut()}
-      >
-        signOut
+      <button onClick={() => signOut()}>
+        Sign out
       </button>
     </div>
   )
 }
 
+function customRender () {
+  render(
+    <AuthProvider>
+      <SampleComponent />
+    </AuthProvider>
+  )
+}
+
 describe('AuthProvider', () => {
-  it('should dispatch signIn function when invoked and return valid response', async () => {
-    const signInMocked = mocked(api.post)
-    const responseMock = {
-      data: {
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
-        refreshToken: '84ee647c-ac74-4e34-bb84-1bd6c96b3977',
-        permissions: ['users.list', 'users.create', 'metrics.list'],
-        roles: ['administrator']
+  describe('when invoked and return valid response', () => {
+    it('should dispatch signIn function', async () => {
+      const responseMock = {
+        data: {
+          token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+          refreshToken: '84ee647c-ac74-4e34-bb84-1bd6c96b3977',
+          permissions: ['users.list', 'users.create', 'metrics.list'],
+          roles: ['administrator']
+        }
       }
-    }
 
-    signInMocked.mockReturnValueOnce({ ...responseMock } as any)
+      ;(api.post as jest.Mock).mockReturnValueOnce(responseMock)
 
-    render(
-      <AuthProvider>
-        <SampleComponent />
-      </AuthProvider>
-    )
+      customRender()
 
-    const $signInButton = screen.getByTestId('signin-button')
-    fireEvent.click($signInButton)
+      const $signInButton = screen.getByRole('button', { name: /sign in/i })
+      fireEvent.click($signInButton)
 
-    await waitFor(() => {
-      expect(signInMocked).toHaveBeenCalledTimes(1)
-      expect(signInMocked).toHaveReturnedWith({ ...responseMock })
-    }, { timeout: 1000 })
+      await waitFor(() => {
+        expect(api.post).toHaveBeenCalledTimes(1)
+        expect(api.post).toHaveReturnedWith(responseMock)
+      }, { timeout: 1000 })
+    })
   })
 
-  it('should dispatch signIn function when invoked and return invalid response', async () => {
-    const signInMocked = mocked(api.post)
+  describe('when invoked and return invalid response', () => {
+    it('should dispatch signIn function', async () => {
+      (api.post as jest.Mock).mockRejectedValueOnce({})
 
-    signInMocked.mockRejectedValueOnce({})
+      customRender()
 
-    render(
-      <AuthProvider>
-        <SampleComponent />
-      </AuthProvider>
-    )
+      const $signInButton = screen.getByRole('button', { name: /sign in/i })
 
-    const $signInButton = screen.getByTestId('signin-button')
-    fireEvent.click($signInButton)
+      fireEvent.click($signInButton)
 
-    await waitFor(() => {
-      expect(signInMocked).toHaveBeenCalledTimes(1)
-    }, { timeout: 1000 })
+      await waitFor(() => {
+        expect(api.post).toHaveBeenCalledTimes(1)
+      }, { timeout: 1000 })
+    })
   })
 
   it('should return valid paylod on make `/me`', async () => {
-    const signInMocked = mocked(api.get)
     const responseMock = {
       data: {
         email: 'admin@site.com',
@@ -97,46 +93,25 @@ describe('AuthProvider', () => {
       }
     }
 
-    signInMocked.mockReturnValueOnce({ ...responseMock } as any)
+    ;(api.get as jest.Mock).mockReturnValueOnce(responseMock)
 
-    render(
-      <AuthProvider>
-        <SampleComponent />
-      </AuthProvider>
-    )
+    customRender()
 
     await waitFor(() => {
-      expect(signInMocked).toHaveBeenCalledTimes(1)
-      expect(signInMocked).toHaveReturnedWith({ ...responseMock })
+      expect(api.get).toHaveBeenCalledTimes(1)
+      expect(api.get).toHaveReturnedWith(responseMock)
     }, { timeout: 1000 })
   })
 
-  it('should return erro when `/me` request is invalid', async () => {
-    const signInMocked = mocked(api.get)
+  describe('when `/me` request is invalid', () => {
+    it('should return erro', async () => {
+      (api.get as jest.Mock).mockRejectedValueOnce({})
 
-    signInMocked.mockRejectedValueOnce({})
+      customRender()
 
-    render(
-      <AuthProvider>
-        <SampleComponent />
-      </AuthProvider>
-    )
-
-    await waitFor(() => {
-      expect(signInMocked).toHaveBeenCalledTimes(1)
-    }, { timeout: 1000 })
-  })
-
-  it('should call signOut function on click button', () => {
-    // const signOut = jest.fn()
-    render(
-      <AuthProvider>
-        <SampleComponent />
-      </AuthProvider>
-    )
-
-    const $signOutButton = screen.getByTestId('signout-button')
-    fireEvent.click($signOutButton)
-    // expect(signOut).toBeCalledTimes(0)
+      await waitFor(() => {
+        expect(api.get).toHaveBeenCalledTimes(1)
+      }, { timeout: 1000 })
+    })
   })
 })
