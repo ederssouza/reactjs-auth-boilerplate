@@ -149,7 +149,7 @@ The route can only be accessed if a user is not authenticated. If accessed after
 
 ```js
 import { Switch } from 'react-router-dom'
-import { PublicRoute } from 'src/routes/PublicRoute'
+import { PublicRoute } from 'src/router/PublicRoute'
 
 const SampleComponent = () => <div>Sample component</div>
 
@@ -169,7 +169,7 @@ The route can only be accessed if a user is authenticated. Use permission props 
 
 ```js
 import { Switch } from 'react-router-dom'
-import { PrivateRoute } from 'src/routes/PrivateRoute'
+import { PrivateRoute } from 'src/router/PrivateRoute'
 
 const SampleComponent = () => <div>Sample component</div>
 
@@ -193,7 +193,7 @@ export const Routes = () => (
 Use the `CanAccess` component and pass `permissions` props to control the visibility of a component.
 
 ```js
-import { CanAccess } from 'src/components/CanAccess'
+import { CanAccess } from 'src/components'
 
 export function NavBar () {
   return (
