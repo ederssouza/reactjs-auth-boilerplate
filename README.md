@@ -33,7 +33,6 @@
   - [Client](#client)
 - [Route types](#route-types)
   - [Public route](#public-route)
-  - [Hybrid route](#hybrid-route)
   - [Private route](#private-route)
 - [Control visibility of components](#control-visibility-of-components)
 - [Contributing](#contributing)
@@ -158,26 +157,6 @@ export const Routes = () => (
   <Switch>
     <PublicRoute
       path="/login"
-      component={SampleComponent}
-    />
-  </Switch>
-)
-```
-
-### Hybrid route
-
-The route can be accessed whether a user is authenticated or not.
-
-```js
-import { Switch } from 'react-router-dom'
-import { HybridRoute } from 'src/routes/HybridRoute'
-
-const SampleComponent = () => <div>Sample component</div>
-
-export const Routes = () => (
-  <Switch>
-    <HybridRoute
-      path="/register"
       component={SampleComponent}
     />
   </Switch>
