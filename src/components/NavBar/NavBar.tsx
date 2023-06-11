@@ -25,7 +25,7 @@ function NavBar () {
       {isAuthenticated && (
         <>
           <span style={{ marginRight: 4 }}>{user?.email}</span>
-          <button data-testid="logout-button" onClick={signOut}>Logout</button>
+          <button onClick={signOut}>Logout</button>
         </>
       )}
     </div>

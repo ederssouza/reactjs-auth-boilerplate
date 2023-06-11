@@ -50,11 +50,7 @@ function Login () {
 
   return (
     <div>
-      <form
-        noValidate
-        data-testid="login-form"
-        onSubmit={handleSubmit}
-      >
+      <form noValidate onSubmit={handleSubmit}>
         <select name="select-user" onChange={handleUserChange}>
           <option value="" style={{ display: 'none' }}>
             Select an user to test
