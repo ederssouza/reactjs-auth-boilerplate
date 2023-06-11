@@ -20,8 +20,8 @@ function Login () {
   ]
 
   function handleUserChange (event: React.ChangeEvent<HTMLSelectElement>) {
-    const user = JSON.parse(event.target.value)
-    if (user) setValues(user)
+    const user = event.target.value
+    setValues(JSON.parse(user))
   }
 
   function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
@@ -50,20 +50,22 @@ function Login () {
 
   return (
     <div>
-      <select onChange={handleUserChange}>
-        <option>Select an user to test</option>
-        {users.map(user => (
-          <option key={user.email} value={JSON.stringify(user)}>
-            {user.name}
-          </option>
-        ))}
-      </select>
-
       <form
         noValidate
         data-testid="login-form"
         onSubmit={handleSubmit}
       >
+        <select name="select-user" onChange={handleUserChange}>
+          <option value="" style={{ display: 'none' }}>
+            Select an user to test
+          </option>
+          {users.map(user => (
+            <option key={user.email} value={JSON.stringify(user)}>
+              {user.name}
+            </option>
+          ))}
+        </select>
+
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -71,7 +73,6 @@ function Login () {
             type="email"
             name="email"
             id="email"
-            data-testid="login-input-email"
             disabled={loginRequestStatus === 'loading'}
             onChange={handleChange}
           />
@@ -84,7 +85,6 @@ function Login () {
             type="password"
             name="password"
             id="password"
-            data-testid="login-input-password"
             disabled={loginRequestStatus === 'loading'}
             onChange={handleChange}
           />
@@ -92,7 +92,6 @@ function Login () {
 
         <button
           type="submit"
-          data-testid="login-submit-button"
           disabled={loginRequestStatus === 'loading'}
         >
           {loginRequestStatus === 'loading' ? 'Loading...' : 'Submit'}
