@@ -44,33 +44,36 @@ describe('NavBar component', () => {
       { wrapper }
     )
 
-    expect(screen.getByText(/Login/)).toBeInTheDocument()
     expect(screen.getByText(/Login/)).toHaveAttribute('href', '/login')
   })
 
-  it('should show user email when is authenticated', () => {
-    render(
+  describe('when the user is authenticated', () => {
+    it('should show user email', () => {
+      render(
       <AuthContext.Provider value={providerUserLoggedMock}>
         <NavBar />
       </AuthContext.Provider>,
       { wrapper }
-    )
+      )
 
-    expect(screen.getByText(/email@site\.com/)).toBeInTheDocument()
+      expect(screen.getByText(/email@site\.com/)).toBeInTheDocument()
+    })
   })
 
-  it('should logout user on click logout button', () => {
-    render(
+  describe('when the user clicks on the logout button', () => {
+    it('should logout user', () => {
+      render(
       <AuthContext.Provider value={providerUserLoggedMock}>
         <NavBar />
       </AuthContext.Provider>,
       { wrapper }
-    )
+      )
 
-    const logoutButton = screen.getByRole('button', { name: /logout/i })
+      const logoutButton = screen.getByRole('button', { name: /logout/i })
 
-    fireEvent.click(logoutButton)
+      fireEvent.click(logoutButton)
 
-    expect(providerUserLoggedMock.signOut).toBeCalledTimes(1)
+      expect(providerUserLoggedMock.signOut).toBeCalledTimes(1)
+    })
   })
 })

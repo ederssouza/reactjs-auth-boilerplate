@@ -58,8 +58,9 @@ describe('AuthProvider', () => {
 
       customRender()
 
-      const $signInButton = screen.getByRole('button', { name: /sign in/i })
-      fireEvent.click($signInButton)
+      const signInButton = screen.getByRole('button', { name: /sign in/i })
+
+      fireEvent.click(signInButton)
 
       await waitFor(() => {
         expect(api.post).toHaveBeenCalledTimes(1)
@@ -74,9 +75,9 @@ describe('AuthProvider', () => {
 
       customRender()
 
-      const $signInButton = screen.getByRole('button', { name: /sign in/i })
+      const signInButton = screen.getByRole('button', { name: /sign in/i })
 
-      fireEvent.click($signInButton)
+      fireEvent.click(signInButton)
 
       await waitFor(() => {
         expect(api.post).toHaveBeenCalledTimes(1)
@@ -84,27 +85,29 @@ describe('AuthProvider', () => {
     })
   })
 
-  it('should return valid paylod on make `/me`', async () => {
-    const responseMock = {
-      data: {
-        email: 'admin@site.com',
-        permissions: ['users.list', 'users.create', 'metrics.list'],
-        roles: ['administrator']
+  describe('when the request to `/me` endpoint returns valid data', () => {
+    it('should return valid paylod on make `/me`', async () => {
+      const responseMock = {
+        data: {
+          email: 'admin@site.com',
+          permissions: ['users.list', 'users.create', 'metrics.list'],
+          roles: ['administrator']
+        }
       }
-    }
 
     ;(api.get as jest.Mock).mockReturnValueOnce(responseMock)
 
-    customRender()
+      customRender()
 
-    await waitFor(() => {
-      expect(api.get).toHaveBeenCalledTimes(1)
-      expect(api.get).toHaveReturnedWith(responseMock)
-    }, { timeout: 1000 })
+      await waitFor(() => {
+        expect(api.get).toHaveBeenCalledTimes(1)
+        expect(api.get).toHaveReturnedWith(responseMock)
+      }, { timeout: 1000 })
+    })
   })
 
-  describe('when `/me` request is invalid', () => {
-    it('should return erro', async () => {
+  describe('when the request to `/me` endpoint returns invalid data', () => {
+    it('should return an error', async () => {
       (api.get as jest.Mock).mockRejectedValueOnce({})
 
       customRender()
