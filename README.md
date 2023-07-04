@@ -125,7 +125,7 @@ npm run test:coverage:watch
 
 ## Test users
 
-The app is integrated with the [node-api-refresh-token-ederssouza.koyeb.app](https://node-api-refresh-token-ederssouza.koyeb.app) API, configured in the `.env` file. There are two users with different accesses so that the tests can be performed:
+The app is integrated with the [node-api-refresh-token.cyclic.app](https://node-api-refresh-token.cyclic.app) API, configured in the `.env` file. There are two users with different accesses so that the tests can be performed:
 
 ### Administrator
 
