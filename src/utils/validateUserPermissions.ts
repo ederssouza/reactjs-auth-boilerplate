@@ -9,18 +9,14 @@ type Params = {
   roles?: string[]
 }
 
-export function validateUserPermissions ({
-  user,
-  permissions,
-  roles
-}: Params) {
+export function validateUserPermissions({ user, permissions, roles }: Params) {
   let hasAllPermissions = true
   let hasAllRoles = true
 
   if (permissions?.length) {
     const userPermissions = user?.permissions || []
 
-    hasAllPermissions = permissions.every(permission => {
+    hasAllPermissions = permissions.every((permission) => {
       return userPermissions.includes(permission)
     })
   }
@@ -28,7 +24,7 @@ export function validateUserPermissions ({
   if (roles?.length) {
     const userRoles = user?.roles || []
 
-    hasAllRoles = roles.every(role => {
+    hasAllRoles = roles.every((role) => {
       return userRoles.includes(role)
     })
   }
