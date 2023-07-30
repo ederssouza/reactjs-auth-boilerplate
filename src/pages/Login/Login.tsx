@@ -43,7 +43,6 @@ function Login() {
       /**
        * an error handler can be added here
        */
-      console.log(error)
     } finally {
       setLoginRequestStatus('success')
     }
