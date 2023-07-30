@@ -3,17 +3,17 @@ import { AuthContext } from '@/contexts'
 import Login from './Login'
 
 const providerUserUnloggedMock = {
-  signIn: jest.fn(),
-  signOut: jest.fn(),
-  user: null,
+  user: undefined,
   isAuthenticated: false,
-  loadingUserData: false
+  loadingUserData: false,
+  signIn: jest.fn(),
+  signOut: jest.fn()
 }
 
 describe('Login page component', () => {
   beforeEach(() => {
     render(
-      <AuthContext.Provider value={providerUserUnloggedMock as any}>
+      <AuthContext.Provider value={providerUserUnloggedMock}>
         <Login />
       </AuthContext.Provider>
     )
