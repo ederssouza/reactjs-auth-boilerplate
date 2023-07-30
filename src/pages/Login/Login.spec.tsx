@@ -1,6 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-
-import { AuthContext } from '../../contexts'
+import { AuthContext } from '@/contexts'
 import Login from './Login'
 
 const providerUserUnloggedMock = {
@@ -24,11 +23,14 @@ describe('Login page component', () => {
     it('should have a value on input on the fields', () => {
       const select = screen.getByRole('combobox') as HTMLSelectElement
       const inputEmail = screen.getByLabelText(/email/i) as HTMLInputElement
-      const inputPassword = screen.getByLabelText(/password/i) as HTMLInputElement
+      const inputPassword = screen.getByLabelText(
+        /password/i
+      ) as HTMLInputElement
 
       fireEvent.change(select, {
         target: {
-          value: '{"name":"Client","email":"client@site.com","password":"password@123"}'
+          value:
+            '{"name":"Client","email":"client@site.com","password":"password@123"}'
         }
       })
 
@@ -43,7 +45,9 @@ describe('Login page component', () => {
   describe('when inputting email and password on the fields', () => {
     it('should have a value in the inputs', () => {
       const inputEmail = screen.getByLabelText(/email/i) as HTMLInputElement
-      const inputPassword = screen.getByLabelText(/password/i) as HTMLInputElement
+      const inputPassword = screen.getByLabelText(
+        /password/i
+      ) as HTMLInputElement
 
       fireEvent.change(inputEmail, { target: { value: 'email@site.com' } })
       fireEvent.change(inputPassword, { target: { value: 'pass@123' } })
@@ -63,9 +67,12 @@ describe('Login page component', () => {
 
     fireEvent.click(button)
 
-    await waitFor(() => {
-      expect(button).toHaveAttribute('disabled')
-      expect(button).toHaveTextContent(/Loading/)
-    }, { timeout: 1000 })
+    await waitFor(
+      () => {
+        expect(button).toHaveAttribute('disabled')
+        expect(button).toHaveTextContent(/Loading/)
+      },
+      { timeout: 1000 }
+    )
   })
 })

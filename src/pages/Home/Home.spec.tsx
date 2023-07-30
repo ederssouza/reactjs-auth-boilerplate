@@ -6,9 +6,11 @@ describe('Home page component', () => {
   it('should render with success', () => {
     render(<Home />)
 
-    expect(screen.getByRole('heading', {
-      name: 'Home',
-      level: 1
-    })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', {
+        name: 'Home',
+        level: 1
+      })
+    ).toBeInTheDocument()
   })
 })

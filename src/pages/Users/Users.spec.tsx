@@ -21,22 +21,28 @@ describe('Users page component', () => {
 
       render(<Users />)
 
-      await waitFor(() => {
-        expect(screen.getByText(/User 1/)).toBeInTheDocument()
-        expect(screen.getByText(/User 2/)).toBeInTheDocument()
-      }, { timeout: 1000 })
+      await waitFor(
+        () => {
+          expect(screen.getByText(/User 1/)).toBeInTheDocument()
+          expect(screen.getByText(/User 2/)).toBeInTheDocument()
+        },
+        { timeout: 1000 }
+      )
     })
   })
 
   describe('when the request does not return the payload', () => {
     it('should render empty list message', async () => {
-      (api.get as jest.Mock).mockReturnValueOnce({ data: {} })
+      ;(api.get as jest.Mock).mockReturnValueOnce({ data: {} })
 
       render(<Users />)
 
-      await waitFor(() => {
-        expect(screen.getByText(/empty user list/)).toBeInTheDocument()
-      }, { timeout: 1000 })
+      await waitFor(
+        () => {
+          expect(screen.getByText(/empty user list/)).toBeInTheDocument()
+        },
+        { timeout: 1000 }
+      )
     })
   })
 
@@ -46,9 +52,12 @@ describe('Users page component', () => {
 
       render(<Users />)
 
-      await waitFor(() => {
-        expect(screen.getByText(/empty user list/)).toBeInTheDocument()
-      }, { timeout: 1000 })
+      await waitFor(
+        () => {
+          expect(screen.getByText(/empty user list/)).toBeInTheDocument()
+        },
+        { timeout: 1000 }
+      )
     })
   })
 })
