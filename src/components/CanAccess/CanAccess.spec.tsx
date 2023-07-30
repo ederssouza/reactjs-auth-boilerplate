@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/react'
-
-import { useUserSession } from '../../hooks'
-import { validateUserPermissions } from '../../utils/validateUserPermissions'
 import CanAccess from './CanAccess'
+import { useSession } from '@/hooks'
+import { validateUserPermissions } from '@/utils'
 
-jest.mock('../../hooks/useUserSession', () => ({
-  useUserSession: jest.fn()
+jest.mock('../../hooks/useSession', () => ({
+  useSession: jest.fn()
 }))
 
 jest.mock('../../utils/validateUserPermissions', () => ({
@@ -14,14 +13,14 @@ jest.mock('../../utils/validateUserPermissions', () => ({
 
 describe('CanAccess component', () => {
   beforeEach(() => {
-    (useUserSession as jest.Mock).mockReturnValue({
+    ;(useSession as jest.Mock).mockReturnValue({
       isAuthenticated: true
     })
   })
 
   describe('when the user does not have permission', () => {
     it('should not render child component', () => {
-      (validateUserPermissions as jest.Mock).mockReturnValue({
+      ;(validateUserPermissions as jest.Mock).mockReturnValue({
         hasAllPermissions: false,
         hasAllRoles: false
       })
@@ -34,7 +33,7 @@ describe('CanAccess component', () => {
 
   describe('when the user has permission', () => {
     it('should render child component', () => {
-      (validateUserPermissions as jest.Mock).mockReturnValue({
+      ;(validateUserPermissions as jest.Mock).mockReturnValue({
         hasAllPermissions: true,
         hasAllRoles: true
       })

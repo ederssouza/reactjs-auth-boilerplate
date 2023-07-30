@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
-
-import { useUserSession } from '../../hooks'
-import { validateUserPermissions } from '../../utils/validateUserPermissions'
+import { useSession } from '@/hooks'
+import { validateUserPermissions } from '@/utils'
 
 type Props = {
   children: ReactNode
@@ -9,10 +8,10 @@ type Props = {
   roles?: string[]
 }
 
-function CanAccess (props: Props) {
+function CanAccess(props: Props) {
   const { children, permissions, roles } = props
 
-  const { isAuthenticated, user } = useUserSession()
+  const { isAuthenticated, user } = useSession()
   const { hasAllPermissions, hasAllRoles } = validateUserPermissions({
     user,
     permissions,
