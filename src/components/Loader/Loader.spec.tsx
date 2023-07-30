@@ -3,8 +3,8 @@ import Loader from './Loader'
 
 describe('Loader | component | unit test', () => {
   it('should render with success', () => {
-    render(<Loader>Loader</Loader>)
+    render(<Loader />)
 
-    expect(screen.getByText('Loader')).toBeInTheDocument()
+    expect(screen.getByText('Loading...')).toBeInTheDocument()
   })
 })

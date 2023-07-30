@@ -1,15 +1,16 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { useSession } from '@/hooks'
 import { AuthProvider } from '@/providers'
-import { paths } from '@/router'
 import { api } from '@/services'
+import { paths } from '@/router'
+
+const mockNavigate = jest.fn()
 
 jest.mock('../../services/api')
-
 jest.mock('react-router-dom', () => ({
-  useNavigate: () => jest.fn(),
+  useNavigate: () => mockNavigate,
   useLocation: () => ({
-    pathname: paths.ROOT_PATH
+    pathname: '/'
   })
 }))
 
@@ -43,6 +44,10 @@ function customRender() {
 }
 
 describe('AuthProvider', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('when invoked and return valid response', () => {
     it('should dispatch signIn function', async () => {
       const responseMock = {
@@ -127,6 +132,21 @@ describe('AuthProvider', () => {
         },
         { timeout: 1000 }
       )
+    })
+  })
+
+  describe('when the user clicks on the logout button', () => {
+    it('should dispatch signOut function', async () => {
+      customRender()
+
+      const signOutButton = screen.getByRole('button', { name: /sign out/i })
+
+      fireEvent.click(signOutButton)
+
+      await waitFor(() => {
+        expect(mockNavigate).toHaveBeenCalledTimes(1)
+        expect(mockNavigate).toBeCalledWith(paths.LOGIN_PATH)
+      })
     })
   })
 })
