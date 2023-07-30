@@ -6,7 +6,7 @@ import { paths } from '@/router'
 
 const mockNavigate = jest.fn()
 
-jest.mock('../../services/api')
+jest.mock('@/services/api')
 jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
   useLocation: () => ({

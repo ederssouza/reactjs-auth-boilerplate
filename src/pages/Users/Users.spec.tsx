@@ -1,9 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react'
-
-import { api } from '../../services/api'
+import { api } from '@/services/api'
 import Users from './Users'
 
-jest.mock('../../services/api')
+jest.mock('@/services/api')
 
 describe('Users page component', () => {
   describe('when the request returns valid data', () => {

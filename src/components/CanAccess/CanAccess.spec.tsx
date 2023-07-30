@@ -3,11 +3,11 @@ import CanAccess from './CanAccess'
 import { useSession } from '@/hooks'
 import { validateUserPermissions } from '@/utils'
 
-jest.mock('../../hooks/useSession', () => ({
+jest.mock('@/hooks/useSession', () => ({
   useSession: jest.fn()
 }))
 
-jest.mock('../../utils/validateUserPermissions', () => ({
+jest.mock('@/utils/validateUserPermissions', () => ({
   validateUserPermissions: jest.fn()
 }))
 
