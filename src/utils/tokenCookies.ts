@@ -10,10 +10,9 @@ type CreateTokenCookiesParams = {
   refreshToken?: string
 }
 
-export function createTokenCookies({
-  token,
-  refreshToken
-}: CreateTokenCookiesParams) {
+export function createTokenCookies(params: CreateTokenCookiesParams) {
+  const { token, refreshToken } = params
+
   if (token) {
     setCookie(null, TOKEN_COOKIE, token, {
       maxAge: COOKIE_EXPIRATION_TIME,

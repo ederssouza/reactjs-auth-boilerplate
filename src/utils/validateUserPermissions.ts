@@ -9,7 +9,9 @@ type Params = {
   roles?: string[]
 }
 
-export function validateUserPermissions({ user, permissions, roles }: Params) {
+export function validateUserPermissions(params: Params) {
+  const { user, permissions, roles } = params
+
   let hasAllPermissions = true
   let hasAllRoles = true
 
