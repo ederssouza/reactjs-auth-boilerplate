@@ -13,11 +13,11 @@ export type SignInCredentials = {
 }
 
 export type AuthContextData = {
-  signIn: (credentials: SignInCredentials) => Promise<void | AxiosError>
-  signOut: () => void
   user?: User
   isAuthenticated: boolean
   loadingUserData: boolean
+  signIn: (credentials: SignInCredentials) => Promise<void | AxiosError>
+  signOut: () => void
 }
 
 const AuthContext = createContext({} as AuthContextData)
