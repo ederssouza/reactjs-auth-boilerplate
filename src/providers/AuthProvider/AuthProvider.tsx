@@ -2,9 +2,9 @@ import { ReactNode, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
 import { AuthContext, SignInCredentials, User } from '@/contexts'
+import { paths } from '@/router'
 import { api, setAuthorizationHeader } from '@/services'
 import { createTokenCookies, getToken, removeTokenSession } from '@/utils'
-import { paths } from '@/router'
 
 type Props = {
   children: ReactNode
@@ -49,7 +49,7 @@ function AuthProvider(props: Props) {
       removeTokenSession()
       setUser(undefined)
       setLoadingUserData(false)
-      navigate(pathname)
+      // navigate(pathname)
     }
   }, [navigate, pathname, token])
 
@@ -70,7 +70,6 @@ function AuthProvider(props: Props) {
         /**
          * an error handler can be added here
          */
-        console.log(error)
       } finally {
         setLoadingUserData(false)
       }
