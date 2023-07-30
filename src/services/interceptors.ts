@@ -1,6 +1,18 @@
-import { AxiosDefaults, AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-
-import { createTokenCookies, getRefreshToken, getToken, removeTokenCookies } from '../utils/tokenCookies'
+import {
+  AxiosDefaults,
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig
+} from 'axios'
+import {
+  createTokenCookies,
+  getRefreshToken,
+  getToken,
+  removeTokenSession
+} from '@/utils'
+import { paths } from '@/router'
 import { api } from './api'
 
 type FailedRequestQueue = {
@@ -11,60 +23,90 @@ type FailedRequestQueue = {
 let isRefreshing = false
 let failedRequestQueue: FailedRequestQueue[] = []
 
-export function setAuthorizationHeader (request: AxiosDefaults | AxiosRequestConfig | any, token: string) {
-  request.headers.Authorization = `Bearer ${token}`
+type SetAuthorizationHeaderParams = {
+  request: AxiosDefaults | AxiosRequestConfig
+  token: string
 }
 
-function handleRefreshToken (refreshToken: string) {
+export function setAuthorizationHeader(params: SetAuthorizationHeaderParams) {
+  const { request, token } = params
+
+  ;(request.headers as Record<string, unknown>)[
+    'Authorization'
+  ] = `Bearer ${token}`
+}
+
+function handleRefreshToken(refreshToken: string) {
   isRefreshing = true
 
-  api.post('/refresh', { refreshToken })
-    .then(response => {
+  api
+    .post(
+      '/refresh',
+      { refreshToken },
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`
+        }
+      }
+    )
+    .then((response) => {
       const { token } = response.data
 
-      createTokenCookies(token, response.data.refreshToken)
-      setAuthorizationHeader(api.defaults, token)
+      createTokenCookies({ token, refreshToken: response.data.refreshToken })
+      setAuthorizationHeader({ request: api.defaults, token })
 
-      failedRequestQueue.forEach(request => request.onSuccess(token))
+      failedRequestQueue.forEach((request) => request.onSuccess(token))
       failedRequestQueue = []
     })
-    .catch(error => {
-      failedRequestQueue.forEach(request => request.onFailure(error))
+    .catch((error) => {
+      failedRequestQueue.forEach((request) => request.onFailure(error))
       failedRequestQueue = []
 
-      removeTokenCookies()
+      removeTokenSession()
     })
     .finally(() => {
       isRefreshing = false
     })
 }
 
-function onRequest (config: AxiosRequestConfig): AxiosRequestConfig {
+function onRequest(config: AxiosRequestConfig) {
   const token = getToken()
-  token && setAuthorizationHeader(config, token)
-  return config
+
+  if (token) {
+    setAuthorizationHeader({ request: config, token })
+  }
+
+  return config as InternalAxiosRequestConfig
 }
 
-function onRequestError (error: AxiosError): Promise<AxiosError> {
+function onRequestError(error: AxiosError): Promise<AxiosError> {
   return Promise.reject(error)
 }
 
-function onResponse (response: AxiosResponse): AxiosResponse {
+function onResponse(response: AxiosResponse): AxiosResponse {
   return response
 }
 
-function onResponseError (error: AxiosError): Promise<AxiosError | AxiosResponse> {
+type ErrorCode = {
+  code: string
+}
+
+function onResponseError(
+  error: AxiosError<ErrorCode>
+): Promise<AxiosError | AxiosResponse> {
   if (error?.response?.status === 401) {
-    if (error.response.data?.code === 'token.expired') {
-      const originalConfig = error.config
+    if (error.response?.data?.code === 'token.expired') {
+      const originalConfig = error.config as AxiosRequestConfig
       const refreshToken = getRefreshToken()
 
-      !isRefreshing && handleRefreshToken(refreshToken)
+      if (!isRefreshing) {
+        handleRefreshToken(refreshToken)
+      }
 
       return new Promise((resolve, reject) => {
         failedRequestQueue.push({
           onSuccess: (token: string) => {
-            setAuthorizationHeader(originalConfig, token)
+            setAuthorizationHeader({ request: originalConfig, token })
             resolve(api(originalConfig))
           },
           onFailure: (error: AxiosError) => {
@@ -73,15 +115,17 @@ function onResponseError (error: AxiosError): Promise<AxiosError | AxiosResponse
         })
       })
     } else {
-      removeTokenCookies()
+      removeTokenSession()
+      window.location.href = paths.LOGIN_PATH
     }
   }
 
   return Promise.reject(error)
 }
 
-export function setupInterceptors (axiosInstance: AxiosInstance): AxiosInstance {
+export function setupInterceptors(axiosInstance: AxiosInstance): AxiosInstance {
   axiosInstance.interceptors.request.use(onRequest, onRequestError)
   axiosInstance.interceptors.response.use(onResponse, onResponseError)
+
   return axiosInstance
 }
