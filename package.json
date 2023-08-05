@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",
-    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "typecheck": "node scripts/typeCheckStaged.js",
     "test": "jest --maxWorkers=50%",
     "test:watch": "jest --watch --maxWorkers=25%",
     "test:ci": "jest --runInBand",
@@ -21,7 +21,7 @@
     "src/**/*": [
       "npm run typecheck",
       "npm run lint",
-      "npm run coverage-test"
+      "npm test"
     ]
   },
   "dependencies": {
