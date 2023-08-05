@@ -49,7 +49,7 @@ function Login() {
   }
 
   useEffect(() => {
-    // clean the function to fix memory leak
+    // clean the function to prevent memory leak
     return () => setLoginRequestStatus('success')
   }, [])
 
