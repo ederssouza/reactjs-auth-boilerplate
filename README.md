@@ -166,7 +166,7 @@ export const Routes = () => (
 
 ### Private route
 
-The route can only be accessed if a user is authenticated. Use permission props to access control.
+The route can only be accessed if a user is authenticated. Use permission props (returned by the API) to access the control.
 
 ```tsx
 import { Routes } from 'react-router-dom'
