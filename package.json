@@ -19,7 +19,9 @@
   },
   "lint-staged": {
     "src/**/*": [
-      "npm run lint"
+      "npm run typecheck",
+      "npm run lint",
+      "npm run coverage-test"
     ]
   },
   "dependencies": {
