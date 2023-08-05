@@ -49,7 +49,6 @@ function AuthProvider(props: Props) {
       removeTokenSession()
       setUser(undefined)
       setLoadingUserData(false)
-      // navigate(pathname)
     }
   }, [navigate, pathname, token])
 
