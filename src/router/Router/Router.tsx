@@ -1,23 +1,32 @@
 import { Routes, Route } from 'react-router-dom'
-
-import { Home, Login, Metrics, Register, Users } from '../../pages'
+import { useRoutePaths } from '@/hooks'
+import { Home, Login, Metrics, Register, Users } from '@/pages'
 import { PrivateRoute } from '../PrivateRoute'
 import { PublicRoute } from '../PublicRoute'
 
-function RouteList () {
+function Router() {
+  const {
+    LOGIN_PATH,
+    METRICS_PATH,
+    REGISTER_PATH,
+    ROOT_PATH,
+    USERS_PATH,
+    USER_PATH
+  } = useRoutePaths()
+
   return (
     <Routes>
       <Route
-        path="/"
+        path={ROOT_PATH}
         element={
-          <PrivateRoute redirectTo="/login">
+          <PrivateRoute redirectTo={LOGIN_PATH}>
             <Home />
           </PrivateRoute>
         }
       />
 
       <Route
-        path="/login"
+        path={LOGIN_PATH}
         element={
           <PublicRoute>
             <Login />
@@ -25,19 +34,19 @@ function RouteList () {
         }
       />
 
-      <Route path="/register" element={<Register />} />
+      <Route path={REGISTER_PATH} element={<Register />} />
 
       <Route
-        path="/metrics"
+        path={METRICS_PATH}
         element={
-          <PrivateRoute permissions={['metrics.list']} redirectTo="/login">
+          <PrivateRoute permissions={['metrics.list']} redirectTo={LOGIN_PATH}>
             <Metrics />
           </PrivateRoute>
         }
       />
 
       <Route
-        path="/users"
+        path={USERS_PATH}
         element={
           <PrivateRoute permissions={['users.list', 'users.create']}>
             <Users />
@@ -46,7 +55,7 @@ function RouteList () {
       />
 
       <Route
-        path="/users/:id"
+        path={USER_PATH}
         element={
           <PrivateRoute permissions={['users.list', 'users.create']}>
             <Users />
@@ -59,4 +68,4 @@ function RouteList () {
   )
 }
 
-export default RouteList
+export default Router

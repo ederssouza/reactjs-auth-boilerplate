@@ -1,58 +1,61 @@
-import { AxiosError } from 'axios'
 import { ReactNode, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-
-import { AuthContext, SignInCredentials, User } from '../../contexts'
-import { api } from '../../services/api'
-import { setAuthorizationHeader } from '../../services/interceptors'
-import { createTokenCookies, getToken, removeTokenCookies } from '../../utils/tokenCookies'
+import { AxiosError } from 'axios'
+import { AuthContext, SignInCredentials, User } from '@/contexts'
+import { paths } from '@/router'
+import { api, setAuthorizationHeader } from '@/services'
+import { createSessionCookies, getToken, removeSessionCookies } from '@/utils'
 
 type Props = {
   children: ReactNode
 }
 
-function AuthProvider (props: Props) {
+function AuthProvider(props: Props) {
   const { children } = props
 
-  const [user, setUser] = useState<User | null>()
+  const [user, setUser] = useState<User>()
   const [loadingUserData, setLoadingUserData] = useState(true)
   const navigate = useNavigate()
   const { pathname } = useLocation()
+
   const token = getToken()
   const isAuthenticated = Boolean(token)
-  const userData = user as User
 
-  async function signIn (params: SignInCredentials) {
+  async function signIn(params: SignInCredentials) {
     const { email, password } = params
 
     try {
       const response = await api.post('/sessions', { email, password })
       const { token, refreshToken, permissions, roles } = response.data
 
-      createTokenCookies(token, refreshToken)
+      createSessionCookies({ token, refreshToken })
       setUser({ email, permissions, roles })
-      setAuthorizationHeader(api.defaults, token)
+      setAuthorizationHeader({ request: api.defaults, token })
     } catch (error) {
       const err = error as AxiosError
       return err
     }
   }
 
-  function signOut (pathname = '/login') {
-    removeTokenCookies()
-    setUser(null)
+  function signOut() {
+    removeSessionCookies()
+    setUser(undefined)
     setLoadingUserData(false)
-    navigate(pathname)
+    navigate(paths.LOGIN_PATH)
   }
 
   useEffect(() => {
-    if (!token) signOut(pathname)
-  }, [pathname, token])
+    if (!token) {
+      removeSessionCookies()
+      setUser(undefined)
+      setLoadingUserData(false)
+    }
+  }, [navigate, pathname, token])
 
   useEffect(() => {
     const token = getToken()
 
-    async function getUserData () {
+    async function getUserData() {
       setLoadingUserData(true)
 
       try {
@@ -63,26 +66,30 @@ function AuthProvider (props: Props) {
           setUser({ email, permissions, roles })
         }
       } catch (error) {
-        signOut()
+        /**
+         * an error handler can be added here
+         */
+      } finally {
+        setLoadingUserData(false)
       }
-
-      setLoadingUserData(false)
     }
 
     if (token) {
-      setAuthorizationHeader(api.defaults, token)
+      setAuthorizationHeader({ request: api.defaults, token })
       getUserData()
     }
   }, [])
 
   return (
-    <AuthContext.Provider value={{
-      isAuthenticated,
-      user: userData,
-      loadingUserData,
-      signIn,
-      signOut
-    }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        user,
+        loadingUserData,
+        signIn,
+        signOut
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

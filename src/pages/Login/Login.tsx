@@ -1,30 +1,29 @@
 import React, { FormEvent, useEffect, useState } from 'react'
+import { useSession } from '@/hooks'
 
-import { useUserSession } from '../../hooks'
-
-function initialFormValues () {
+function initialFormValues() {
   return {
     email: '',
     password: ''
   }
 }
 
-function Login () {
+function Login() {
   const [values, setValues] = useState(initialFormValues)
   const [loginRequestStatus, setLoginRequestStatus] = useState('success')
-  const { signIn } = useUserSession()
+  const { signIn } = useSession()
 
   const users = [
     { name: 'Admin', email: 'admin@site.com', password: 'password@123' },
     { name: 'Client', email: 'client@site.com', password: 'password@123' }
   ]
 
-  function handleUserChange (event: React.ChangeEvent<HTMLSelectElement>) {
+  function handleUserChange(event: React.ChangeEvent<HTMLSelectElement>) {
     const user = event.target.value
     setValues(JSON.parse(user))
   }
 
-  function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
 
     setValues({
@@ -33,18 +32,24 @@ function Login () {
     })
   }
 
-  async function handleSubmit (e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
 
     setLoginRequestStatus('loading')
 
-    await signIn(values)
-
-    setLoginRequestStatus('success')
+    try {
+      await signIn(values)
+    } catch (error) {
+      /**
+       * an error handler can be added here
+       */
+    } finally {
+      setLoginRequestStatus('success')
+    }
   }
 
   useEffect(() => {
-    // clean the function to fix memory leak
+    // clean the function to prevent memory leak
     return () => setLoginRequestStatus('success')
   }, [])
 
@@ -55,7 +60,7 @@ function Login () {
           <option value="" style={{ display: 'none' }}>
             Select an user to test
           </option>
-          {users.map(user => (
+          {users.map((user) => (
             <option key={user.email} value={JSON.stringify(user)}>
               {user.name}
             </option>
@@ -86,10 +91,7 @@ function Login () {
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={loginRequestStatus === 'loading'}
-        >
+        <button type="submit" disabled={loginRequestStatus === 'loading'}>
           {loginRequestStatus === 'loading' ? 'Loading...' : 'Submit'}
         </button>
       </form>

@@ -34,6 +34,7 @@
 - [Route types](#route-types)
   - [Public route](#public-route)
   - [Private route](#private-route)
+  - [Hybrid route](#hybrid-route)
 - [Control visibility of components](#control-visibility-of-components)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
@@ -147,34 +148,34 @@ The route components are based on `<Route />` component of [react-router-dom](ht
 
 The route can only be accessed if a user is not authenticated. If accessed after authentication, the user will be redirected `/` route.
 
-```js
-import { Switch } from 'react-router-dom'
+```tsx
+import { Routes } from 'react-router-dom'
 import { PublicRoute } from 'src/router/PublicRoute'
 
 const SampleComponent = () => <div>Sample component</div>
 
 export const Routes = () => (
-  <Switch>
+  <Routes>
     <PublicRoute
       path="/login"
       component={SampleComponent}
     />
-  </Switch>
+  </Routes>
 )
 ```
 
 ### Private route
 
-The route can only be accessed if a user is authenticated. Use permission props to access control.
+The route can only be accessed if a user is authenticated. Use permission props (returned by the API) to access the control.
 
-```js
-import { Switch } from 'react-router-dom'
+```tsx
+import { Routes } from 'react-router-dom'
 import { PrivateRoute } from 'src/router/PrivateRoute'
 
 const SampleComponent = () => <div>Sample component</div>
 
 export const Routes = () => (
-  <Switch>
+  <Routes>
     {/*
       allow route access if the user has the permissions
       `users.list` and `users.create`
@@ -184,7 +185,24 @@ export const Routes = () => (
       component={SampleComponent}
       permissions={['users.list', 'users.create']}
     />
-  </Switch>
+  </Routes>
+)
+```
+
+### Hybrid route
+
+The route can be accessed if a user is authenticated or not. Use `Route` component.
+
+```tsx
+import { Routes } from 'react-router-dom'
+import { PrivateRoute } from 'src/router/PrivateRoute'
+
+const SampleComponent = () => <div>Sample component</div>
+
+export const Routes = () => (
+  <Routes>
+    <Route path="/contact" element={<SampleComponent />} />
+  </Routes>
 )
 ```
 
@@ -192,7 +210,7 @@ export const Routes = () => (
 
 Use the `CanAccess` component and pass `permissions` props to control the visibility of a component.
 
-```js
+```tsx
 import { CanAccess } from 'src/components'
 
 export function NavBar () {
