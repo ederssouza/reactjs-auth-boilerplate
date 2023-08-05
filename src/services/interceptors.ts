@@ -7,10 +7,10 @@ import {
   InternalAxiosRequestConfig
 } from 'axios'
 import {
-  createTokenCookies,
+  createSessionCookies,
   getRefreshToken,
   getToken,
-  removeTokenSession
+  removeSessionCookies
 } from '@/utils'
 import { paths } from '@/router'
 import { api } from './api'
@@ -52,7 +52,7 @@ function handleRefreshToken(refreshToken: string) {
     .then((response) => {
       const { token } = response.data
 
-      createTokenCookies({ token, refreshToken: response.data.refreshToken })
+      createSessionCookies({ token, refreshToken: response.data.refreshToken })
       setAuthorizationHeader({ request: api.defaults, token })
 
       failedRequestQueue.forEach((request) => request.onSuccess(token))
@@ -62,7 +62,7 @@ function handleRefreshToken(refreshToken: string) {
       failedRequestQueue.forEach((request) => request.onFailure(error))
       failedRequestQueue = []
 
-      removeTokenSession()
+      removeSessionCookies()
     })
     .finally(() => {
       isRefreshing = false
@@ -115,7 +115,7 @@ function onResponseError(
         })
       })
     } else {
-      removeTokenSession()
+      removeSessionCookies()
       window.location.href = paths.LOGIN_PATH
     }
   }

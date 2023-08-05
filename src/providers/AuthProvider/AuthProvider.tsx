@@ -4,7 +4,7 @@ import { AxiosError } from 'axios'
 import { AuthContext, SignInCredentials, User } from '@/contexts'
 import { paths } from '@/router'
 import { api, setAuthorizationHeader } from '@/services'
-import { createTokenCookies, getToken, removeTokenSession } from '@/utils'
+import { createSessionCookies, getToken, removeSessionCookies } from '@/utils'
 
 type Props = {
   children: ReactNode
@@ -28,7 +28,7 @@ function AuthProvider(props: Props) {
       const response = await api.post('/sessions', { email, password })
       const { token, refreshToken, permissions, roles } = response.data
 
-      createTokenCookies({ token, refreshToken })
+      createSessionCookies({ token, refreshToken })
       setUser({ email, permissions, roles })
       setAuthorizationHeader({ request: api.defaults, token })
     } catch (error) {
@@ -38,7 +38,7 @@ function AuthProvider(props: Props) {
   }
 
   function signOut() {
-    removeTokenSession()
+    removeSessionCookies()
     setUser(undefined)
     setLoadingUserData(false)
     navigate(paths.LOGIN_PATH)
@@ -46,7 +46,7 @@ function AuthProvider(props: Props) {
 
   useEffect(() => {
     if (!token) {
-      removeTokenSession()
+      removeSessionCookies()
       setUser(undefined)
       setLoadingUserData(false)
     }

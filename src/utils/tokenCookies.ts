@@ -5,12 +5,12 @@ import {
   TOKEN_COOKIE
 } from '@/utils'
 
-type CreateTokenCookiesParams = {
+type CreateSessionCookiesParams = {
   token?: string
   refreshToken?: string
 }
 
-export function createTokenCookies(params: CreateTokenCookiesParams) {
+export function createSessionCookies(params: CreateSessionCookiesParams) {
   const { token, refreshToken } = params
 
   if (token) {
@@ -28,7 +28,7 @@ export function createTokenCookies(params: CreateTokenCookiesParams) {
   }
 }
 
-export function removeTokenSession() {
+export function removeSessionCookies() {
   destroyCookie(null, TOKEN_COOKIE)
   destroyCookie(null, REFRESH_TOKEN_COOKIE)
 }
