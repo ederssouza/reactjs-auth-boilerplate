@@ -18,5 +18,13 @@ module.exports = {
   },
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1'
+  },
+  coverageThreshold: {
+    global: {
+      statements: -10,
+      branches: 100,
+      functions: 100,
+      lines: 100
+    }
   }
 }
