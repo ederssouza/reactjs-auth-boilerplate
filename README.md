@@ -154,7 +154,7 @@ import { PublicRoute } from 'src/router/PublicRoute'
 
 const SampleComponent = () => <div>Sample component</div>
 
-export const Routes = () => (
+export const Router = () => (
   <Routes>
     <PublicRoute
       path="/login"
@@ -174,7 +174,7 @@ import { PrivateRoute } from 'src/router/PrivateRoute'
 
 const SampleComponent = () => <div>Sample component</div>
 
-export const Routes = () => (
+export const Router = () => (
   <Routes>
     {/*
       allow route access if the user has the permissions
@@ -194,12 +194,11 @@ export const Routes = () => (
 The route can be accessed if a user is authenticated or not. Use `Route` component.
 
 ```tsx
-import { Routes } from 'react-router-dom'
-import { PrivateRoute } from 'src/router/PrivateRoute'
+import { Route, Routes } from 'react-router-dom'
 
 const SampleComponent = () => <div>Sample component</div>
 
-export const Routes = () => (
+export const Router = () => (
   <Routes>
     <Route path="/contact" element={<SampleComponent />} />
   </Routes>
