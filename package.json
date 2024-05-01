@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0",
+    "lint": "eslint \"src/**/*.{ts,tsx}\" --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",
     "typecheck": "node scripts/typeCheckStaged.js",
     "test": "jest --maxWorkers=50%",
