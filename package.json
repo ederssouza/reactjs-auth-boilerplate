@@ -28,7 +28,7 @@
     "axios": "^1.6.8",
     "nookies": "^2.5.2",
     "react": "^18.3.1",
-    "react-dom": "^18.2.0",
+    "react-dom": "^18.3.1",
     "react-error-boundary": "^4.0.13",
     "react-router-dom": "^6.23.1"
   },
@@ -40,7 +40,7 @@
     "@testing-library/react": "^15.0.7",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.2.24",
+    "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vitejs/plugin-react": "^4.2.1",
