@@ -33,7 +33,7 @@
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.26.0",
     "@testing-library/jest-dom": "^5.17.0",
