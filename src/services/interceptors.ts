@@ -31,9 +31,8 @@ type SetAuthorizationHeaderParams = {
 export function setAuthorizationHeader(params: SetAuthorizationHeaderParams) {
   const { request, token } = params
 
-  ;(request.headers as Record<string, unknown>)[
-    'Authorization'
-  ] = `Bearer ${token}`
+  ;(request.headers as Record<string, unknown>)['Authorization'] =
+    `Bearer ${token}`
 }
 
 function handleRefreshToken(refreshToken: string) {
