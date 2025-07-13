@@ -14,8 +14,8 @@
     "test:ci": "jest --runInBand",
     "coverage-test": "jest --coverage --maxWorkers=50%",
     "coverage-test:watch": "jest --coverage --watch --maxWorkers=25%",
-    "postinstall": "husky install",
-    "prepare": "husky install"
+    "postinstall": "husky",
+    "prepare": "husky"
   },
   "lint-staged": {
     "src/**/*": [
@@ -53,7 +53,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^30.0.4",
     "lint-staged": "^16.1.2",
-    "prettier": "3.0.3",
+    "prettier": "3.6.2",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
     "vite-plugin-environment": "^1.1.3"
