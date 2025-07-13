@@ -14,8 +14,8 @@
     "test:ci": "jest --runInBand",
     "coverage-test": "jest --coverage --maxWorkers=50%",
     "coverage-test:watch": "jest --coverage --watch --maxWorkers=25%",
-    "postinstall": "husky install",
-    "prepare": "husky install"
+    "postinstall": "husky",
+    "prepare": "husky"
   },
   "lint-staged": {
     "src/**/*": [
