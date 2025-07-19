@@ -73,7 +73,7 @@ describe('NavBar component', () => {
 
       fireEvent.click(logoutButton)
 
-      expect(providerUserLoggedMock.signOut).toBeCalledTimes(1)
+      expect(providerUserLoggedMock.signOut).toHaveBeenCalledTimes(1)
     })
   })
 })

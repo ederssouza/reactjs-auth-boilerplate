@@ -145,7 +145,7 @@ describe('AuthProvider', () => {
 
       await waitFor(() => {
         expect(mockNavigate).toHaveBeenCalledTimes(1)
-        expect(mockNavigate).toBeCalledWith(paths.LOGIN_PATH)
+        expect(mockNavigate).toHaveBeenCalledWith(paths.LOGIN_PATH)
       })
     })
   })
