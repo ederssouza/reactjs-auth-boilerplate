@@ -3973,7 +3973,7 @@ fb-watchman@^2.0.2:
   dependencies:
     bser "2.1.1"
 
-fdir@^6.4.4, fdir@^6.5.0:
+fdir@^6.5.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/fdir/-/fdir-6.5.0.tgz#ed2ab967a331ade62f18d077dae192684d50d350"
   integrity sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==
@@ -6996,13 +6996,13 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
 
-tinyglobby@^0.2.14:
-  version "0.2.14"
-  resolved "https://registry.yarnpkg.com/tinyglobby/-/tinyglobby-0.2.14.tgz#5280b0cf3f972b050e74ae88406c0a6a58f4079d"
-  integrity sha512-tX5e7OM1HnYr2+a2C/4V0htOcSQcoSTH9KgJnVvNm5zm/cyEWKJ7j7YutsH9CxMdtOkkLFy2AHrMci9IM8IPZQ==
+tinyglobby@^0.2.15:
+  version "0.2.15"
+  resolved "https://registry.yarnpkg.com/tinyglobby/-/tinyglobby-0.2.15.tgz#e228dd1e638cea993d2fdb4fcd2d4602a79951c2"
+  integrity sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==
   dependencies:
-    fdir "^6.4.4"
-    picomatch "^4.0.2"
+    fdir "^6.5.0"
+    picomatch "^4.0.3"
 
 tldts-core@^6.1.86:
   version "6.1.86"
@@ -7331,17 +7331,17 @@ vite-plugin-environment@^1.1.3:
   resolved "https://registry.yarnpkg.com/vite-plugin-environment/-/vite-plugin-environment-1.1.3.tgz#d01a04abb2f69730a4866c9c9db51d3dab74645b"
   integrity sha512-9LBhB0lx+2lXVBEWxFZC+WO7PKEyE/ykJ7EPWCq95NEcCpblxamTbs5Dm3DLBGzwODpJMEnzQywJU8fw6XGGGA==
 
-vite@^7.1.4:
-  version "7.1.4"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-7.1.4.tgz#354944affb55e1aff0157406b74e0d0a3232df9a"
-  integrity sha512-X5QFK4SGynAeeIt+A7ZWnApdUyHYm+pzv/8/A57LqSGcI88U6R6ipOs3uCesdc6yl7nl+zNO0t8LmqAdXcQihw==
+vite@^7.1.7:
+  version "7.1.7"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-7.1.7.tgz#ed3f9f06e21d6574fe1ad425f6b0912d027ffc13"
+  integrity sha512-VbA8ScMvAISJNJVbRDTJdCwqQoAareR/wutevKanhR2/1EkoXVZVkkORaYm/tNVCjP/UDTKtcw3bAkwOUdedmA==
   dependencies:
     esbuild "^0.25.0"
     fdir "^6.5.0"
     picomatch "^4.0.3"
     postcss "^8.5.6"
     rollup "^4.43.0"
-    tinyglobby "^0.2.14"
+    tinyglobby "^0.2.15"
   optionalDependencies:
     fsevents "~2.3.3"
 
