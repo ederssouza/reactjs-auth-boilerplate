@@ -55,7 +55,7 @@
     "lint-staged": "^16.2.6",
     "prettier": "3.6.2",
     "typescript": "^5.9.3",
-    "vite": "^7.1.12",
+    "vite": "^7.2.6",
     "vite-plugin-environment": "^1.1.3"
   }
 }
