@@ -54,7 +54,7 @@
     "jest-environment-jsdom": "^30.4.1",
     "lint-staged": "^16.2.7",
     "prettier": "3.9.4",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "vite": "^8.1.2",
     "vite-plugin-environment": "^1.1.3"
   }
