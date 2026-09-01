@@ -67,7 +67,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.29.7.tgz#6f0237f0f36d2e51c0570a636faed9d2d0efe629"
   integrity sha512-locTkQyKvwIEgBzVrn8693ebc97F2U8ZHjbXwDXJ5Fn2TCpNwTlKcaKLkdHop5c/icOFE7qt7Q9JC5hnKNa6Gg==
 
-"@babel/core@^7.12.3", "@babel/core@^7.23.9", "@babel/core@^7.24.4", "@babel/core@^7.27.4", "@babel/core@^7.29.0":
+"@babel/core@^7.12.3", "@babel/core@^7.23.9", "@babel/core@^7.24.4", "@babel/core@^7.27.4":
   version "7.29.7"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.29.7.tgz#80c10b17248082968b57a857b91640971f2070f7"
   integrity sha512-RgHBCvtjbOK2gXSNBNIkNoEc9qoVEtau3hj8gEqKQuL3HZAibKarWFEI3Lfm6EYKkLalOh8eSrj9b+ch9H/VBA==
@@ -970,20 +970,6 @@
   integrity sha512-ykDdF5yI4f1WrAolLqeF3hmYU12j9ntLQl/AOG1HAS21jxyg1Q0/J/tpREuYLfatGdGmXp/3yS0ZA76kOlVq9Q==
   dependencies:
     "@babel/plugin-transform-react-jsx" "^7.27.1"
-
-"@babel/plugin-transform-react-jsx-self@^7.27.1":
-  version "7.27.1"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx-self/-/plugin-transform-react-jsx-self-7.27.1.tgz#af678d8506acf52c577cac73ff7fe6615c85fc92"
-  integrity sha512-6UzkCs+ejGdZ5mFFC/OCUrv028ab2fp1znZmCZjAOBKiBK2jXD1O+BPSfX8X2qjJ75fZBMSnQn3Rq2mrBJK2mw==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.27.1"
-
-"@babel/plugin-transform-react-jsx-source@^7.27.1":
-  version "7.27.1"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx-source/-/plugin-transform-react-jsx-source-7.27.1.tgz#dcfe2c24094bb757bf73960374e7c55e434f19f0"
-  integrity sha512-zbwoTsBruTeKB9hSq73ha66iFeJHuaFkUbwvqElnygoNbj/jHRsSeokowZFN3CZ64IvEqcmmkVe89OPXc7ldAw==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.27.1"
 
 "@babel/plugin-transform-react-jsx@^7.27.1":
   version "7.27.1"
@@ -2069,12 +2055,7 @@
   resolved "https://registry.yarnpkg.com/@rolldown/binding-win32-x64-msvc/-/binding-win32-x64-msvc-1.1.3.tgz#f06c09db5c8ad4b6904b4d406c9b6f17f392b5c6"
   integrity sha512-OL4OMk7UPXOeVGGd3qo5zJyPIljf4AFgk5QAkPPS+OoLuOOozhuaQGC18MxVTnw/06q93gShAJzlwnSCY9YtqA==
 
-"@rolldown/pluginutils@1.0.0-rc.3":
-  version "1.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@rolldown/pluginutils/-/pluginutils-1.0.0-rc.3.tgz#8a88cc92a0f741befc7bc109cb1a4c6b9408e1c5"
-  integrity sha512-eybk3TjzzzV97Dlj5c+XrBFW57eTNhzod66y9HrBlzJ6NsCrWCp/2kaPS3K9wJmurBC0Tdw4yPjXKZqlznim3Q==
-
-"@rolldown/pluginutils@^1.0.0":
+"@rolldown/pluginutils@^1.0.0", "@rolldown/pluginutils@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@rolldown/pluginutils/-/pluginutils-1.0.1.tgz#e3fcee093fbb5ce765e1ad088ff4de2889f6f9be"
   integrity sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==
@@ -2523,17 +2504,12 @@
   resolved "https://registry.yarnpkg.com/@unrs/resolver-binding-win32-x64-msvc/-/resolver-binding-win32-x64-msvc-1.11.1.tgz#538b1e103bf8d9864e7b85cc96fa8d6fb6c40777"
   integrity sha512-lrW200hZdbfRtztbygyaq/6jP6AKE8qQN2KvPcJ+x7wiD038YtnYtZ82IMNJ69GJibV7bwL3y9FgK+5w/pYt6g==
 
-"@vitejs/plugin-react@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@vitejs/plugin-react/-/plugin-react-5.2.0.tgz#108bd0f566f288ce3566982df4eff137ded7b15f"
-  integrity sha512-YmKkfhOAi3wsB1PhJq5Scj3GXMn3WvtQ/JC0xoopuHoXSdmtdStOpFrYaT1kie2YgFBcIe64ROzMYRjCrYOdYw==
+"@vitejs/plugin-react@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@vitejs/plugin-react/-/plugin-react-6.1.1.tgz#47fa1a2f956e88eaf778ebf65ddce8e2b36597e7"
+  integrity sha512-yxLaQV9gkhS8ezJqCM6+ndU7mDY6gqAg75NQ+0IjwEI8IYOmQCgkRwHKVSfWXW076DsqMo0Dk+0FK1U+M5RgFw==
   dependencies:
-    "@babel/core" "^7.29.0"
-    "@babel/plugin-transform-react-jsx-self" "^7.27.1"
-    "@babel/plugin-transform-react-jsx-source" "^7.27.1"
-    "@rolldown/pluginutils" "1.0.0-rc.3"
-    "@types/babel__core" "^7.20.5"
-    react-refresh "^0.18.0"
+    "@rolldown/pluginutils" "^1.0.1"
 
 acorn-jsx@^5.3.2:
   version "5.3.2"
@@ -6447,11 +6423,6 @@ react-is@^18.3.1:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
-
-react-refresh@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.18.0.tgz#2dce97f4fe932a4d8142fa1630e475c1729c8062"
-  integrity sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==
 
 react-router-dom@^6.27.0:
   version "6.27.0"
