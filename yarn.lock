@@ -7565,10 +7565,10 @@ v8-to-istanbul@^9.0.1:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^1.6.0"
 
-vite-plugin-environment@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/vite-plugin-environment/-/vite-plugin-environment-1.1.3.tgz#d01a04abb2f69730a4866c9c9db51d3dab74645b"
-  integrity sha512-9LBhB0lx+2lXVBEWxFZC+WO7PKEyE/ykJ7EPWCq95NEcCpblxamTbs5Dm3DLBGzwODpJMEnzQywJU8fw6XGGGA==
+vite-plugin-environment@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/vite-plugin-environment/-/vite-plugin-environment-1.1.4.tgz#dbef297cebee7c351735a4069d855f00a4b16504"
+  integrity sha512-dTG+NHbcKX2abIrq10haSL6Z0QaAxjKmII0qoBnIPA//qB1ZsgTDiOltK7bavtxVx1G8pV1ic8NOi7/EDqgXCw==
 
 vite@^8.3.1:
   version "8.3.1"
